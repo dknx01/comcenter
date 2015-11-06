@@ -46,6 +46,7 @@ class TimelineEntry
 
     /**
      * TimelineEntry constructor.
+     * @param stdClass $entry
      */
     public function __construct(stdClass $entry)
     {
