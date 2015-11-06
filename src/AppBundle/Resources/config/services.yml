@@ -1,0 +1,13 @@
+services:
+  twitter.service.api:
+    class: AppBundle\Service\Twitter\Api
+    arguments:
+      - "%twitter%"
+      - "738227712-0PFGyHhsNHutBTEvOKTikHq3HltdV7WSSj3Myqkz"
+      - "RIMl8TDXbXMj6nvPcIiYaGWyF16HQVzQA0vPGltoaLxjU"
+      - "oiO1d5fIn4fWVixyEvQSOMOLq"
+      - "9lyH5V1lTViaDT3HkMs4u2O7MFCtCeVa99a80Vk8SmAMzDQS6Z"
+  twitter.service.timeline:
+    class: AppBundle\Service\Twitter\Timeline
+    arguments:
+      - @twitter.service.api
