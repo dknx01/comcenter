@@ -17,7 +17,17 @@
         "sensio/distribution-bundle": "~4.0",
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
-        "j7mbo/twitter-api-php": "dev-master"
+        "j7mbo/twitter-api-php": "dev-master",
+        "behat/behat": "3.0.x-dev",
+        "behat/behat-bundle": "v1.0.0",
+        "behat/symfony2-extension": "2.1.x-dev",
+        "behatch/contexts": "3.x-dev",
+        "behat/mink": "1.7.x-dev",
+        "behat/mink-browserkit-driver": "1.3.x-dev",
+        "braincrafted/bootstrap-bundle": "2.1.x-dev",
+        "twitter/bootstrap-bundle": "2.0.0",
+        "twbs/bootstrap": "3.3.x-dev",
+        "components/jquery": "2.1.4"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
