@@ -17,9 +17,9 @@ class Api
 
     /**
      * Twitter constructor.
-     * @param array $params
+     * @param TwitterAPIExchange $api
      */
-    public function __construct($api)
+    public function __construct(TwitterAPIExchange $api)
     {
         $this->api = $api;
     }
