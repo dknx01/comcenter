@@ -2,8 +2,11 @@ services:
   twitter.service.api:
     class: AppBundle\Service\Twitter\Api
     arguments:
-      - "%twitter%"
+      - @twitter.vendor.api
   twitter.service.timeline:
     class: AppBundle\Service\Twitter\Timeline
     arguments:
       - @twitter.service.api
+  twitter.vendor.api:
+    class: TwitterAPIExchange
+    arguments: [%twitter%]
