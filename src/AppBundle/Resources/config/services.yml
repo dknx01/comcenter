@@ -3,6 +3,9 @@ services:
     class: AppBundle\Service\Twitter\Api
     arguments:
       - @twitter.vendor.api
+      - @logger
+    tags:
+      - {name: monolog, channel: twitter}
   twitter.service.timeline:
     class: AppBundle\Service\Twitter\Timeline
     arguments:

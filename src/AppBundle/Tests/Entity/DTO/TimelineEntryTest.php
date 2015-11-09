@@ -1,8 +1,7 @@
 <?php
 
-namespace AppBundle\Tests\Entity\DTO;
+namespace AppBundle\Entity\DTO;
 
-use AppBundle\Entity\DTO\TimelineEntry;
 use PHPUnit_Framework_TestCase;
 use stdClass;
 
@@ -18,7 +17,8 @@ class TimelineEntryTest extends PHPUnit_Framework_TestCase
         $actualEntry = new TimelineEntry($entry);
         $this->assertBasicProperties($actualEntry);
         $this->assertEquals(
-            '@Bender Zoidberg was here @Fry https://example.com/mention2 https://example.com/mention1',
+            '@Bender Zoidberg https://example.com/media1 was here@Fry ' .
+            'https://example.com/mention2 https://example.com/mention1 #ME',
             $actualEntry->getText()
         );
     }
@@ -40,8 +40,8 @@ class TimelineEntryTest extends PHPUnit_Framework_TestCase
 
         $actualEntry = new TimelineEntry($entry);
         $this->assertBasicProperties($actualEntry);
-        $expectedText = '<span class="user_mention">@Bender</span> Zoidberg was here ' .
-                    '<span class="user_mention">@Fry</span> https://example.com/mention2 https://example.com/mention1';
+        $expectedText = '<span class="user_mention">@Bender</span> Zoidberg https://example.com/media1 was here' .
+                '<span class="user_mention">@Fry</span> https://example.com/mention2 https://example.com/mention1 #ME';
         $this->assertEquals($expectedText, $actualEntry->getText());
     }
 
@@ -64,11 +64,55 @@ class TimelineEntryTest extends PHPUnit_Framework_TestCase
 
         $actualEntry = new TimelineEntry($entry);
         $this->assertBasicProperties($actualEntry);
-        $expectedText = '@Bender Zoidberg was here @Fry ' .
+        $expectedText = '@Bender Zoidberg https://example.com/media1 was here@Fry ' .
             '<a href="https://example.com/mention2Extended" alt="https://example.com/mention2Extended" ' .
             'class="url_mention" target="_blank">https://example.com/mention2</a> ' .
             '<a href="https://example.com/mention1Extended" alt="https://example.com/mention1Extended" ' .
-            'class="url_mention" target="_blank">https://example.com/mention1</a>';
+            'class="url_mention" target="_blank">https://example.com/mention1</a> #ME';
+        $this->assertEquals($expectedText, $actualEntry->getText());
+    }
+
+    public function testTimelineEntryWithMedia()
+    {
+        $entry = $this->createBasicEntry();
+
+        $entry->user = $this->createUserObject();
+
+        $firstMedia = new stdClass();
+        $firstMedia->type = 'photo';
+        $firstMedia->url = 'https://example.com/media1';
+        $firstMedia->expanded_url = 'https://example.com/media1Extended';
+        $firstMedia->media_url = 'http://example.com/media_url.jpg';
+
+        $medias = array($firstMedia);
+
+        $entry->entities->media = $medias;
+
+        $actualEntry = new TimelineEntry($entry);
+        $this->assertBasicProperties($actualEntry);
+        $expectedText = '@Bender Zoidberg <a href="https://example.com/media1Extended" target="blank">' .
+            '<img src="http://example.com/media_url.jpg:thumb" /></a> was here@Fry ' .
+            'https://example.com/mention2 https://example.com/mention1 #ME';
+        $this->assertEquals($expectedText, $actualEntry->getText());
+    }
+
+    public function testTimelineEntryWithhashtags()
+    {
+        $entry = $this->createBasicEntry();
+
+        $entry->user = $this->createUserObject();
+
+        $firstHashtag = new stdClass();
+        $firstHashtag->text = 'ME';
+
+        $medias = array($firstHashtag);
+
+        $entry->entities->hashtags = $medias;
+
+        $actualEntry = new TimelineEntry($entry);
+        $this->assertBasicProperties($actualEntry);
+        $expectedText = '@Bender Zoidberg https://example.com/media1 was here@Fry ' .
+            'https://example.com/mention2 https://example.com/mention1 <span class="twitter_hashtag">#ME</span>';
         $this->assertEquals($expectedText, $actualEntry->getText());
     }
 
@@ -79,7 +123,8 @@ class TimelineEntryTest extends PHPUnit_Framework_TestCase
     {
         $entry = new stdClass();
         $entry->id_str = 'abc123';
-        $entry->text = '@Bender Zoidberg was here @Fry https://example.com/mention2 https://example.com/mention1';
+        $entry->text = '@Bender Zoidberg https://example.com/media1 was here' .
+            '@Fry https://example.com/mention2 https://example.com/mention1 #ME';
         $entry->retweet_count = 5;
         $entry->favorite_count = 10;
         $entry->entities = new stdClass();

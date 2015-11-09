@@ -63,6 +63,12 @@ class TimelineEntry
         if (isset($entry->entities->urls)) {
             $this->addUrls($entry->entities->urls);
         }
+        if (isset($entry->entities->media)) {
+            $this->addMedia($entry->entities->media);
+        }
+        if (isset($entry->entities->hashtags)) {
+            $this->addHashtags($entry->entities->hashtags);
+        }
     }
 
     /**
@@ -134,6 +140,33 @@ class TimelineEntry
             $find = $mention->url;
             $replace = '<a href="' . $mention->expanded_url . '" alt="' . $mention->expanded_url . '" class="url_mention" target="_blank">' . $find . '</a>';
             $this->text = str_replace($find, $replace, $this->text);
+        }
+    }
+
+    /**
+     * @param array $medias
+     */
+    private function addMedia($medias)
+    {
+        /** @var stdClass $media */
+        foreach ($medias as $media) {
+            if ($media->type == 'photo') {
+                $search = $media->url;
+                $replace = '<a href="' . $media->expanded_url .'" target="blank"><img src="' . $media->media_url .':thumb" /></a>';
+                $this->text = str_replace($search, $replace, $this->text);
+            }
+        }
+    }
+
+    /**
+     * @param array $hashtags
+     */
+    private function addHashtags($hashtags)
+    {
+        foreach ($hashtags as $hashtag) {
+            $search = '#' . $hashtag->text;
+            $replace = '<span class="twitter_hashtag">#' . $hashtag->text . '</span>';
+            $this->text = str_replace($search, $replace, $this->text);
         }
     }
 

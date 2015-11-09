@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Tests\Service\Twittter;
+namespace AppBundle\Service\Twittter    ;
 
 use AppBundle\Service\Twitter\Api;
 use PHPUnit_Framework_MockObject_MockObject;
@@ -37,7 +37,10 @@ class ApiTest extends PHPUnit_Framework_TestCase
             ->method('performRequest')
             ->willReturn($responseJson);
 
-        $api = new Api($this->api);
+        $logger = $this->getMockBuilder('Psr\Log\LoggerInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $api = new Api($this->api, $logger);
         $this->assertEquals($responseJson, $api->getTimeline());
     }
 
