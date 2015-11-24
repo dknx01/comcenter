@@ -19,7 +19,6 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "j7mbo/twitter-api-php": "dev-master",
         "behat/behat": "3.0.x-dev",
-        "behat/behat-bundle": "v1.0.0",
         "behat/symfony2-extension": "2.1.x-dev",
         "behatch/contexts": "3.x-dev",
         "behat/mink": "1.7.x-dev",
@@ -27,7 +26,12 @@
         "braincrafted/bootstrap-bundle": "2.1.x-dev",
         "twitter/bootstrap-bundle": "2.0.0",
         "twbs/bootstrap": "3.3.x-dev",
-        "components/jquery": "2.1.4"
+        "components/jquery": "2.1.4",
+        "raulfraile/ladybug-bundle": "v1.0.6",
+        "phing/phing": "3.0.x-dev",
+        "raveren/kint": "^1.0",
+        "doctrine/mongodb-odm": "1.0.3",
+        "doctrine/mongodb-odm-bundle": "3.1.x-dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Document\TwitterEntry;
 use \AppBundle\Service\Twitter;
 use AppBundle\Service\Twitter\Api;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -35,6 +36,26 @@ class TwitterController extends Controller
 
         $timeline = $timelineService->getTimelineCollection();
         $timelineArray = $timelineService->getTimelineArray();
+
+        $dm = $this->get('doctrine_mongodb')->getManager();
+
+        foreach ($timeline as $entry) {
+            $twitterDocument = new TwitterEntry();
+            $twitterDocument->setTwitterId($entry->getId());
+            $twitterDocument->setText($entry->getText());
+            $twitterDocument->setFrom($entry->getFrom());
+            $twitterDocument->setFromImage($entry->getFromImage());
+            $twitterDocument->setRetweetCount($entry->getRetweetCount());
+            $twitterDocument->setFavoriteCount($entry->getFavoriteCount());
+
+            if (is_null($dm->getRepository('AppBundle:TwitterEntry')
+                ->findOneBy(array('twitterId' => $twitterDocument->getTwitterId())))
+            ) {
+                $dm->persist($twitterDocument);
+                $dm->flush();
+            }
+        }
+
         return $this->render(
             'AppBundle:Twitter:overview2.html.twig',
             array(
@@ -43,4 +64,6 @@ class TwitterController extends Controller
             )
         );
     }
+
+
 }

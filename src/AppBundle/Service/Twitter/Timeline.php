@@ -34,7 +34,7 @@ class Timeline
     }
 
     /**
-     * @return TimelineCollection
+     * @return TimelineCollection|TimelineEntry[]
      */
     public function getTimelineCollection()
     {
