@@ -33,15 +33,20 @@ class Api
 
     /**
      * @param int $max
+     * @param null|int $sinceId
      * @return string
      * @throws Exception
      */
-    public function getTimeline($max = 20)
+    public function getTimeline($max = 20, $sinceId = null)
     {
         $url = 'https://api.twitter.com/1.1/statuses/home_timeline.json';
-        $response =  $this->api->setGetfield('?count=' . $max)
-            ->buildOauth($url, self::GET)
-            ->performRequest();
+
+        /** @var TwitterAPIExchange $api */
+        $api = $this->api->setGetfield('?count=' . $max);
+        if (!is_null($sinceId)) {
+            $api->setGetfield('&since_id=' . $sinceId);
+        }
+        $response = $api->buildOauth($url, self::GET)->performRequest();
         return $response;
     }
 }

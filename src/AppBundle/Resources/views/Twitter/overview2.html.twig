@@ -2,10 +2,8 @@
 {% block title %}TimeLine Test{% endblock %}
 {% block body %}
    My Timeline:
-    <div style="display: none">{{ dump(timelineArray) }}</div>
 
 {{ kintDump(timelineArray) }}
-
 
     <div class="timeline">
     {% for timelineEntry in timeline %}

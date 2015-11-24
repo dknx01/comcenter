@@ -34,11 +34,12 @@ class Timeline
     }
 
     /**
-     * @return TimelineCollection|TimelineEntry[]
+     * @param null|int $sinceId
+     * @return \AppBundle\Entity\DTO\TimelineEntry[]|TimelineCollection
      */
-    public function getTimelineCollection()
+    public function getTimelineCollection($sinceId = null)
     {
-        $this->getTimelineFromApi(50);
+        $this->getTimelineFromApi(50, $sinceId);
 
         $timeline = new TimelineCollection();
         foreach ($this->timelineResult as $entry) {
@@ -58,11 +59,12 @@ class Timeline
 
     /**
      * @param int $max
+     * @param null|int $sinceId
      */
-    protected function getTimelineFromApi($max = 20)
+    protected function getTimelineFromApi($max = 20, $sinceId = null)
     {
         if (empty($this->timelineResult)) {
-            $this->timelineResult = json_decode($this->twitter->getTimeline($max));
+            $this->timelineResult = json_decode($this->twitter->getTimeline($max, $sinceId));
         }
     }
 }

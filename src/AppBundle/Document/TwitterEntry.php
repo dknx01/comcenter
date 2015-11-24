@@ -2,13 +2,16 @@
 
 namespace AppBundle\Document;
 
+use DateTime;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
- * @MongoDB\Document
+ * @MongoDB\Document(repositoryClass="AppBundle\Repository\TwitterRepository")
  */
 class TwitterEntry
 {
+    const DATEFORMAT = 'D M d H:i:s O Y';
+
     /**
      * @var string
      * @MongoDB\String
@@ -55,6 +58,12 @@ class TwitterEntry
     protected $favoriteCount;
 
     /**
+     * @var DateTime
+     * @MongoDB\Date
+     */
+    protected $createdAt;
+
+    /**
      * @return string
      * @MongoDB\String
      */
@@ -66,7 +75,7 @@ class TwitterEntry
     /**
      * @param string $twitterId
      *
-     * @return AppBundle\Document\TwitterEntry
+     * @return TwitterEntry
      */
     public function setTwitterId($twitterId)
     {
@@ -85,7 +94,7 @@ class TwitterEntry
     /**
      * @param string $text
      *
-     * @return AppBundle\Document\TwitterEntry
+     * @return TwitterEntry
      */
     public function setText($text)
     {
@@ -104,7 +113,7 @@ class TwitterEntry
     /**
      * @param string $from
      *
-     * @return AppBundle\Document\TwitterEntry
+     * @return TwitterEntry
      */
     public function setFrom($from)
     {
@@ -123,7 +132,7 @@ class TwitterEntry
     /**
      * @param string $fromImage
      *
-     * @return AppBundle\Document\TwitterEntry
+     * @return TwitterEntry
      */
     public function setFromImage($fromImage)
     {
@@ -142,7 +151,7 @@ class TwitterEntry
     /**
      * @param int $retweetCount
      *
-     * @return AppBundle\Document\TwitterEntry
+     * @return TwitterEntry
      */
     public function setRetweetCount($retweetCount)
     {
@@ -161,7 +170,7 @@ class TwitterEntry
     /**
      * @param int $favoriteCount
      *
-     * @return AppBundle\Document\TwitterEntry
+     * @return TwitterEntry
      */
     public function setFavoriteCount($favoriteCount)
     {
@@ -180,7 +189,7 @@ class TwitterEntry
     /**
      * @param string $id
      *
-     * @return AppBundle\Document\TwitterEntry
+     * @return TwitterEntry
      */
     public function setId($id)
     {
@@ -188,4 +197,23 @@ class TwitterEntry
         return $this;
     }
 
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param DateTime  $createdAt
+     *
+     * @return TwitterEntry
+     */
+    public function setCreatedAt(DateTime $createdAt)
+    {
+
+        $this->createdAt = $createdAt;
+        return $this;
+    }
 }

@@ -10,6 +10,7 @@
 namespace AppBundle\Entity\DTO;
 
 
+use DateTime;
 use stdClass;
 
 class TimelineEntry
@@ -45,6 +46,11 @@ class TimelineEntry
     private $favoriteCount;
 
     /**
+     * @var DateTime
+     */
+    private $createdAt;
+
+    /**
      * TimelineEntry constructor.
      * @param stdClass $entry
      */
@@ -56,6 +62,7 @@ class TimelineEntry
         $this->fromImage = $entry->user->profile_image_url;
         $this->retweetCount = $entry->retweet_count;
         $this->favoriteCount = $entry->favorite_count;
+        $this->createdAt = new DateTime($entry->created_at);
 
         if (isset($entry->entities->user_mentions)) {
             $this->addUsermentions($entry->entities->user_mentions);
@@ -168,6 +175,25 @@ class TimelineEntry
             $replace = '<span class="twitter_hashtag">#' . $hashtag->text . '</span>';
             $this->text = str_replace($search, $replace, $this->text);
         }
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param DateTime $createdAt
+     *
+     * @return TimelineEntry
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+        return $this;
     }
 
 }
