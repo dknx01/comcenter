@@ -8,6 +8,12 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 
 class TwitterRepository extends DocumentRepository
 {
+
+    public function save(TwitterEntry $twitterEntry)
+    {
+        $this->dm->persist($twitterEntry);
+        $this->dm->flush($twitterEntry);
+    }
     /**
      * @param string $twitterId
      * @return object|null|TwitterEntry

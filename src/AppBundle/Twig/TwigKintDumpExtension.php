@@ -6,7 +6,7 @@ use Kint;
 use Twig_Extension;
 use Twig_SimpleFunction;
 
-class AppExtension extends Twig_Extension
+class TwigKintDumpExtension extends Twig_Extension
 {
     private $env;
 
@@ -17,7 +17,6 @@ class AppExtension extends Twig_Extension
 
     public function getFunctions()
     {
-
         return array(new Twig_SimpleFunction($this->getName(), array($this, 'kintDump')));
     }
 

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Document;
 
+use AppBundle\Document\Subdocument\OriginalData;
 use DateTime;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
@@ -10,8 +11,6 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  */
 class TwitterEntry
 {
-    const DATEFORMAT = 'D M d H:i:s O Y';
-
     /**
      * @var string
      * @MongoDB\String
@@ -62,6 +61,18 @@ class TwitterEntry
      * @MongoDB\Date
      */
     protected $createdAt;
+
+    /**
+     * @var boolean
+     * @MongoDB\Boolean
+     */
+    protected $pinned;
+
+    /**
+     * @var OriginalData
+     * @MongoDB\EmbedOne(targetDocument="AppBundle\Document\Subdocument\OriginalData")
+     */
+    protected $originalData;
 
     /**
      * @return string
@@ -214,6 +225,44 @@ class TwitterEntry
     {
 
         $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPinned()
+    {
+        return $this->pinned;
+    }
+
+    /**
+     * @param boolean $pinned
+     *
+     * @return TwitterEntry
+     */
+    public function setPinned($pinned)
+    {
+        $this->pinned = $pinned;
+        return $this;
+    }
+
+    /**
+     * @return OriginalData
+     */
+    public function getOriginalData()
+    {
+        return $this->originalData;
+    }
+
+    /**
+     * @param OriginalData $originalData
+     *
+     * @return TwitterEntry
+     */
+    public function setOriginalData($originalData)
+    {
+        $this->originalData = $originalData;
         return $this;
     }
 }

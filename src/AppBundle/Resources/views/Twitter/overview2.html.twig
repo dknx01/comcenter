@@ -10,15 +10,18 @@
         <div id="{{ timelineEntry.id }}" class="tweet">
             <div>
                 <div class="tweet_person">
-                    <img src="{{ timelineEntry.fromImage }}" alt="{{ timelineEntry.from }}" class="tweet_person_img"/><br>
-                    <span class="small">{{ timelineEntry.from }}</span>
+                    <a href="{{ twitterUserUrl(timelineEntry.from) }}" target="_blank">
+                        <img src="{{ timelineEntry.fromImage }}" alt="{{ timelineEntry.from }}" class="tweet_person_img"/><br>
+                        <span class="small" style="color: black">{{ timelineEntry.from }}</span>
+                    </a>
                 </div>
-
             </div>
             <div>
                 <div class="tweet_states">
                     <span class="statistics glyphicon glyphicon-share badge" data-toggle="tooltip" data-placement="bottom" title="retweeted count">{{ timelineEntry.retweetCount }}</span>
-                    <span class="statistics glyphicon glyphicon-star badge" data-toggle="tooltip" data-placement="bottom" title="favourite count">{{ timelineEntry.favoriteCount }}</span>
+                    <span class="statistics glyphicon glyphicon-heart-empty badge" data-toggle="tooltip" data-placement="bottom" title="favourite count">{{ timelineEntry.favoriteCount }}</span>
+                    <span class="statistics glyphicon glyphicon-pushpin badge" data-toggle="tooltip" data-placement="bottom" title="pin it"> </span>
+                    <span class="statistics glyphicon glyphicon-trash badge" data-toggle="tooltip" data-placement="bottom" title="delete"> </span>
                 </div>
                 <div class="tweet_text">
                     {{ timelineEntry.text|raw }}

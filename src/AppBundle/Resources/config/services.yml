@@ -10,13 +10,24 @@ services:
     class: AppBundle\Service\Twitter\Timeline
     arguments:
       - @twitter.service.api
+      - @comcenter.repository.twitter
+  comcenter.repository.twitter:
+    class: AppBundle\Repository\TwitterRepository
+    factory: ["@doctrine_mongodb", getRepository]
+    arguments:
+      - AppBundle\Document\TwitterEntry
   twitter.vendor.api:
     class: TwitterAPIExchange
     arguments: [%twitter%]
-  app.twig_extension:
-    class: AppBundle\Twig\AppExtension
+  app.twig_extension.kint_dump:
+    class: AppBundle\Twig\TwigKintDumpExtension
     public: false
     arguments:
       - %kernel.environment%
+    tags:
+       - { name: twig.extension }
+  app.twig_extension.build_twitter_url:
+    class: AppBundle\Twig\TwigTwitterUrlExtension
+    public: false
     tags:
        - { name: twig.extension }

@@ -133,7 +133,8 @@ class TimelineEntry
     {
         foreach ($user_mentions as $mention) {
             $find = '@' . $mention->screen_name;
-            $replace = '<span class="user_mention">' . $find . '</span>';
+            $replace = '<a href="https://twitter.com/search?q=%40' .$mention->screen_name .
+                '" target="_blank"  class="user_mention">' . $find . '</a>';
             $this->text = str_replace($find, $replace, $this->text);
         }
     }
@@ -143,9 +144,10 @@ class TimelineEntry
      */
     private function addUrls($urls)
     {
-        foreach ($urls as $mention) {
-            $find = $mention->url;
-            $replace = '<a href="' . $mention->expanded_url . '" alt="' . $mention->expanded_url . '" class="url_mention" target="_blank">' . $find . '</a>';
+        foreach ($urls as $url) {
+            $find = $url->url;
+            $replace = '<a href="' . $url->expanded_url . '" alt="' . $url->expanded_url .
+                '" class="url_mention" target="_blank">' . $find . '</a>';
             $this->text = str_replace($find, $replace, $this->text);
         }
     }
@@ -172,7 +174,8 @@ class TimelineEntry
     {
         foreach ($hashtags as $hashtag) {
             $search = '#' . $hashtag->text;
-            $replace = '<span class="twitter_hashtag">#' . $hashtag->text . '</span>';
+            $replace = '<a href="https://twitter.com/hashtag/' . $hashtag->text . '" class="twitter_hashtag">' .
+                '#' . $hashtag->text . '</a>';
             $this->text = str_replace($search, $replace, $this->text);
         }
     }
