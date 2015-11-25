@@ -20,7 +20,7 @@ class TwitterController extends Controller
     public function twitterTimelineAction()
     {
         /** @var Api $service3 */
-        $service3 = $this->get('twitter.service.api');
+        $service3 = $this->get('commcenter.service.twitter.api');
 
         $timeline = $service3->getTimeline();
         return $this->render('AppBundle:Twitter:overview.html.twig', array('timeline' => $timeline));

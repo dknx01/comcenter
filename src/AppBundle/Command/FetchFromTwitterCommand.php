@@ -24,7 +24,7 @@ class FetchFromTwitterCommand extends ContainerAwareCommand
         $output->writeln('Start');
 
         /** @var Timeline $twitter */
-        $twitter = $this->getContainer()->get('twitter.service.timeline');
+        $twitter = $this->getContainer()->get('commcenter.service.twitter.timeline');
 
         /** @var LoggerInterface $logger */
         $logger = $this->getContainer()->get('logger');
