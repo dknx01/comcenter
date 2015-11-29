@@ -1,6 +1,14 @@
+function getBasepath()
+{
+    if (window.location.pathname.match('/^\/app_dev\.php*/')) {
+        return '/app_dev.php';
+    } else  {
+        return '';
+    }
+}
 function deleteEntry (id) {
     var twitterId = $('#'+id).data('twitter');
-    var deleteAction = $.get('delete/'+twitterId);
+    var deleteAction = $.get(getBasepath()+'/twitter/delete/'+twitterId);
 
     deleteAction.done(function (data) {
             if (data == 1) {
@@ -16,7 +24,7 @@ function deleteEntry (id) {
 
 function pinEntry (id) {
     var twitterId = $('#'+id).data('twitter');
-    var pinAction = $.get('pin/'+twitterId);
+    var pinAction = $.get(getBasepath()+'/twitter/pin/'+twitterId);
 
     pinAction.done(function (data) {
         if (data == 'unpinned') {

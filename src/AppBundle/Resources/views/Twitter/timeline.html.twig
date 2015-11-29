@@ -4,6 +4,8 @@
 
 {{ kintDump(timelineArray) }}
 
+    {% include  'AppBundle:Twitter:navigation.html.twig' with {'navigationElement': navigation} %}
+
     <div class="stream">
         <span class="headline">My Twitter Timeline</span>
     {% for key,timelineEntry in timeline %}
@@ -28,6 +30,7 @@
                     <span class="statistics glyphicon glyphicon-heart-empty badge" data-toggle="tooltip" data-placement="bottom" title="favourite count">{{ timelineEntry.favoriteCount }}</span>
                     <span class="statistics glyphicon glyphicon-pushpin badge {{ pinColor }}" id="{{ key }}Pin" data-toggle="tooltip" data-placement="bottom" title="{{ pinTitle }}" onclick="pinEntry('{{ key }}');"> </span>
                     <span class="statistics glyphicon glyphicon-trash badge" data-toggle="tooltip" data-placement="bottom" title="delete" onclick="deleteEntry('{{ key }}');"> </span>
+                    <span class="publishDate">{{ timelineEntry.createdAt|date('d.m.Y H:i') }}</span>
                 </div>
                 <div class="tweet_text">
                     {{ timelineEntry.text|raw }}
@@ -35,9 +38,25 @@
             </div>
         </div>
     {% endfor %}
-
-        {{ timeline.count }}
-        <span class="next">Next</span>
+        <nav>
+            <ul class="pager">
+                {% if page > 0 %}
+                <li class="previous"><a href="{{url~'/'~(page - 1) }}"><span aria-hidden="true">&larr;</span> Older</a></li>
+                {% endif %}
+                {% if page < ((timeline.count / perPage)|round(1, 'floor')) %}
+                <li class="next"><a href="{{url~'/'~(page + 1) }}">Newer <span aria-hidden="true">&rarr;</span></a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <nav style="text-align: center">
+            <ul class="pagination pagination-sm">
+                {% for i in 0..((timeline.count / perPage)|round(1, 'floor')) %}
+                    <li {% if i == page %}class="disabled"{% endif %}><a href="{{ url~'/'~i }}">{{ i }}</a></li>
+                {% endfor %}
+            </ul>
+        </nav>
+        {#{{ timeline.count }}#}
+        {#<span class="next">Next</span>#}
     </div>
 {% endblock %}
 
@@ -109,9 +128,19 @@
             text-align: center;
             font-weight: bold;
         }
-
         .pinned {
             color:rgb(0, 193, 0);
+        }
+        .publishDate {
+            font-size: smaller;
+            color: black;
+        }
+        #menu {
+            margin: 0px 50px 10px 50px;
+        }
+        #menu>ul>li {
+            background-color: aliceblue;
+            border-radius: 5px;
         }
     </style>
 {% endblock %}

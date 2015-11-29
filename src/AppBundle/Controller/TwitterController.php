@@ -19,6 +19,7 @@ class TwitterController extends Controller
      */
     public function twitterTimelineAction()
     {
+        $this->redirectToRoute('home');
         /** @var Api $service3 */
         $service3 = $this->get('commcenter.service.twitter.api');
 
@@ -38,23 +39,29 @@ class TwitterController extends Controller
     }
 
     /**
-     * @Route("/twitter/timeline")
+     * @Route("/twitter/timeline/{page}", requirements={"page"="\d+"}, name="home")
+     * @param int $page
      * @return Response
      */
-    public function timelineAction()
+    public function timelineAction($page = 0)
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
         /** @var TwitterRepository $repo */
         $repo = $dm->getRepository('AppBundle:TwitterEntry');
 
-        $timeline = $repo->findWithLimit();
+        $limit = 50;
+        $timeline = $repo->findWithLimit($limit, ($page * $limit));
         $timelineArray = $timeline->toArray();
 
         return $this->render(
             'AppBundle:Twitter:timeline.html.twig',
             array(
                 'timeline' => $timeline,
-                'timelineArray' => $timelineArray
+                'timelineArray' => $timelineArray,
+                'page' => $page,
+                'perPage' => $limit,
+                'navigation' => 'home',
+                'url' => $this->generateUrl('home')
             )
         );
     }
@@ -102,5 +109,54 @@ class TwitterController extends Controller
             $repo->save($entry);
         }
         return new Response($return);
+    }
+
+    /**
+     * @Route("/twitter/pinned/{page}", requirements={"page"="\d+"}, name="pinned")
+     * @param int $page
+     * @return Response
+     */
+    public function allPinnedAction($page = 0)
+    {
+        return $this->getEntriesByBooleanField('pinned', 'pinned', $page);
+    }
+
+    /**
+     * @Route("/twitter/deleted/{page}", requirements={"page"="\d+"}, name="deleted")
+     * @param int $page
+     * @return Response
+     */
+    public function allDeletedAction($page = 0)
+    {
+        return $this->getEntriesByBooleanField('deleted', 'deleted', $page);
+    }
+
+    /**
+     * @param string $fieldName
+     * @param string $naviName
+     * @param int $page
+     * @param int $limit
+     * @return Response
+     */
+    protected function getEntriesByBooleanField($fieldName, $naviName, $page = 0, $limit = 50)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        /** @var TwitterRepository $repo */
+        $repo = $dm->getRepository('AppBundle:TwitterEntry');
+
+        $timeline = $repo->findByBooleanFieldWithLimit($fieldName, $limit, ($page * $limit));
+        $timelineArray = $timeline->toArray();
+
+        return $this->render(
+            'AppBundle:Twitter:timeline.html.twig',
+            array(
+                'timeline' => $timeline,
+                'timelineArray' => $timelineArray,
+                'page' => $page,
+                'perPage' => $limit,
+                'navigation' => $naviName,
+                'url' => $this->generateUrl($naviName)
+            )
+        );
     }
 }

@@ -28,13 +28,34 @@ class TwitterRepository extends DocumentRepository
 
     /**
      * @param int $limit
+     * @param int $skip
      * @return Cursor
      */
-    public function findWithLimit($limit = 50)
+    public function findWithLimit($limit = 50, $skip = 0)
     {
         $qb = $this->createQueryBuilder();
         /** @var Cursor $result */
         $result = $qb->field('deleted')->notEqual(true)
+            ->skip($skip)
+            ->limit($limit)
+            ->sort('twitterId', -1)
+            ->getQuery()
+            ->execute();
+        return $result->hydrate();
+    }
+
+    /**
+     * @param string $field
+     * @param int $limit
+     * @param int $skip
+     * @return Cursor
+     */
+    public function findByBooleanFieldWithLimit($field, $limit = 50, $skip = 0)
+    {
+        $qb = $this->createQueryBuilder();
+        /** @var Cursor $result */
+        $result = $qb->field($field)->equals(true)
+            ->skip($skip)
             ->limit($limit)
             ->sort('twitterId', -1)
             ->getQuery()

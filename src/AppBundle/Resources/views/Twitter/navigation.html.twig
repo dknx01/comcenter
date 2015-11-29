@@ -1,0 +1,14 @@
+<div id="menu">
+    <ul class="nav nav-pills nav-justified">
+
+        <li role="presentation" {% if navigationElement == 'home' %}class="active"{% endif %}>
+            <a href="{{ url('home') }}">Home</a>
+        </li>
+        <li role="presentation" {% if navigationElement == 'pinned' %}class="active"{% endif %}>
+            <a href="{{ url('pinned') }}">Pinned</a>
+        </li>
+        <li role="presentation" {% if navigationElement == 'deleted' %}class="active"{% endif %}>
+            <a href="{{ url('deleted') }}">Deleted</a>
+        </li>
+    </ul>
+</div>
