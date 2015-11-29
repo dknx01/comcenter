@@ -69,6 +69,12 @@ class TwitterEntry
     protected $pinned;
 
     /**
+     * @var boolean
+     * @MongoDB\Boolean
+     */
+    protected $deleted;
+
+    /**
      * @var OriginalData
      * @MongoDB\EmbedOne(targetDocument="AppBundle\Document\Subdocument\OriginalData")
      */
@@ -265,4 +271,24 @@ class TwitterEntry
         $this->originalData = $originalData;
         return $this;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isDeleted()
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * @param boolean $deleted
+     *
+     * @return TwitterEntry
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+        return $this;
+    }
+
 }

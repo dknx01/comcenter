@@ -49,8 +49,9 @@ class TwitterController extends Controller
 
         $timeline = $repo->findWithLimit();
         $timelineArray = $timeline->toArray();
+
         return $this->render(
-            'AppBundle:Twitter:overview2.html.twig',
+            'AppBundle:Twitter:timeline.html.twig',
             array(
                 'timeline' => $timeline,
                 'timelineArray' => $timelineArray
@@ -58,5 +59,48 @@ class TwitterController extends Controller
         );
     }
 
+    /**
+     * @Route("/twitter/delete/{twitterId}", methods={"GET"}, requirements={"twitterId" = "^[a-z0-9]{1,}$"})
+     * @return Response
+     */
+    public function deleteAction($twitterId)
+    {
+        $return = false;
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        /** @var TwitterRepository $repo */
+        $repo = $dm->getRepository('AppBundle:TwitterEntry');
+        /** @var TwitterEntry $entry */
+        $entry = $repo->findByTwitterId($twitterId);
+        if (!is_null($entry)) {
+            $entry->setDeleted(true);
+            $repo->save($entry);
+            $return = true;
+        }
+        return new Response((string)$return);
+    }
 
+    /**
+     * @Route("/twitter/pin/{twitterId}", methods={"GET"}, requirements={"twitterId" = "^[a-z0-9]{1,}$"})
+     * @return Response
+     */
+    public function pinAction($twitterId)
+    {
+        $return = '';
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        /** @var TwitterRepository $repo */
+        $repo = $dm->getRepository('AppBundle:TwitterEntry');
+        /** @var TwitterEntry $entry */
+        $entry = $repo->findByTwitterId($twitterId);
+        if (!is_null($entry)) {
+            if ($entry->isPinned() === true) {
+                $entry->setPinned(false);
+                $return = 'unpinned';
+            } else {
+                $entry->setPinned(true);
+                $return = 'pinned';
+            }
+            $repo->save($entry);
+        }
+        return new Response($return);
+    }
 }

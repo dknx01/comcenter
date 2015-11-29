@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
-{% block title %}TimeLine Test{% endblock %}
+{% block title %}Twitter Timeline{% endblock %}
 {% block body %}
-   My Timeline:
 
 {{ kintDump(timelineArray) }}
 
-    <div class="timeline">
-    {% for timelineEntry in timeline %}
-        <div id="{{ timelineEntry.id }}" class="tweet">
+    <div class="stream">
+        <span class="headline">My Twitter Timeline</span>
+    {% for key,timelineEntry in timeline %}
+        <div id="{{ key }}" data-twitter="{{ timelineEntry.twitterId }}" data-from="{{ timelineEntry.from }}" class="tweet">
             <div>
                 <div class="tweet_person">
                     <a href="{{ twitterUserUrl(timelineEntry.from) }}" target="_blank">
@@ -18,10 +18,16 @@
             </div>
             <div>
                 <div class="tweet_states">
+                    {% set pinColor = '' %}
+                    {% set pinTitle = 'pin it' %}
+                    {% if timelineEntry.isPinned == true %}
+                        {% set pinColor = 'pinned' %}
+                        {% set pinTitle = 'unpin it' %}
+                    {% endif %}
                     <span class="statistics glyphicon glyphicon-share badge" data-toggle="tooltip" data-placement="bottom" title="retweeted count">{{ timelineEntry.retweetCount }}</span>
                     <span class="statistics glyphicon glyphicon-heart-empty badge" data-toggle="tooltip" data-placement="bottom" title="favourite count">{{ timelineEntry.favoriteCount }}</span>
-                    <span class="statistics glyphicon glyphicon-pushpin badge" data-toggle="tooltip" data-placement="bottom" title="pin it"> </span>
-                    <span class="statistics glyphicon glyphicon-trash badge" data-toggle="tooltip" data-placement="bottom" title="delete"> </span>
+                    <span class="statistics glyphicon glyphicon-pushpin badge {{ pinColor }}" id="{{ key }}Pin" data-toggle="tooltip" data-placement="bottom" title="{{ pinTitle }}" onclick="pinEntry('{{ key }}');"> </span>
+                    <span class="statistics glyphicon glyphicon-trash badge" data-toggle="tooltip" data-placement="bottom" title="delete" onclick="deleteEntry('{{ key }}');"> </span>
                 </div>
                 <div class="tweet_text">
                     {{ timelineEntry.text|raw }}
@@ -29,6 +35,9 @@
             </div>
         </div>
     {% endfor %}
+
+        {{ timeline.count }}
+        <span class="next">Next</span>
     </div>
 {% endblock %}
 
@@ -49,7 +58,7 @@
         .url_mention {
             color: #36A700;
         }
-        .timeline {
+        .stream {
             margin-left: auto;
             margin-right: auto;
             max-width: 700px;
@@ -95,10 +104,26 @@
         .twitter_hashtag {
             color: #337AB7;
         }
+        .headline {
+            color: white;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .pinned {
+            color:rgb(0, 193, 0);
+        }
     </style>
 {% endblock %}
 {% block javascripts %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+    {% javascripts '@AppBundle/Resources/public/js/timeline.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% javascripts '@AppBundle/Resources/public/js/notify.min.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}

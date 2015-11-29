@@ -9,6 +9,9 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 class TwitterRepository extends DocumentRepository
 {
 
+    /**
+     * @param TwitterEntry $twitterEntry
+     */
     public function save(TwitterEntry $twitterEntry)
     {
         $this->dm->persist($twitterEntry);
@@ -16,7 +19,7 @@ class TwitterRepository extends DocumentRepository
     }
     /**
      * @param string $twitterId
-     * @return object|null|TwitterEntry
+     * @return null|TwitterEntry
      */
     public function findByTwitterId($twitterId)
     {
@@ -31,7 +34,8 @@ class TwitterRepository extends DocumentRepository
     {
         $qb = $this->createQueryBuilder();
         /** @var Cursor $result */
-        $result = $qb->limit($limit)
+        $result = $qb->field('deleted')->notEqual(true)
+            ->limit($limit)
             ->sort('twitterId', -1)
             ->getQuery()
             ->execute();
