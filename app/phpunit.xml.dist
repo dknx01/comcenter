@@ -11,6 +11,7 @@
         <testsuite name="Project Test Suite">
             <directory>../src/*Bundle/Tests/Entity</directory>
             <directory>../src/*Bundle/Tests/Service</directory>
+            <directory>../src/*Bundle/Tests/Repository</directory>
             <!--<directory>../src/*Bundle/Tests</directory>-->
         </testsuite>
     </testsuites>
@@ -23,8 +24,11 @@
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory>../src/AppBundle/Service</directory>
+            <directory>../src/AppBundle/Command</directory>
+            <directory>../src/AppBundle/Document</directory>
             <directory>../src/AppBundle/Entity</directory>
+            <directory>../src/AppBundle/Repository</directory>
+            <directory>../src/AppBundle/Service</directory>
             <exclude>
                 <directory>../src/*Bundle/Resources</directory>
                 <directory>../src/*Bundle/Tests</directory>
