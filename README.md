@@ -23,6 +23,7 @@ doctrine_mongodb:
 ```
 
 * In app/config/parameters.yml configure your twitter keys and mongodb credentials:
+```
     twitter:
         oauth_access_token: [YOUR OAUTH_ACCESS_TOKEN]
         oauth_access_token_secret: [YOUR OAUTH_ACCESS_TOKEN_SECRET]
@@ -30,3 +31,4 @@ doctrine_mongodb:
         consumer_secret: [YOUR CONSUMER_SECRET]
     mongodb_user: [YOUR MONGODB_USER]
     mongodb_password: [YOUR MONGODB_PASSWORD]
+```
