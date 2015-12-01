@@ -187,16 +187,4 @@ class TimelineEntry
     {
         return $this->createdAt;
     }
-
-    /**
-     * @param DateTime $createdAt
-     *
-     * @return TimelineEntry
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
 }

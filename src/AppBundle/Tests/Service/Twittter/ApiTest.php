@@ -22,7 +22,7 @@ class ApiTest extends PHPUnit_Framework_TestCase
             ->getMock();
     }
 
-    public function testGetTimeline()
+    public function testGetTimelineWithoutSinceId()
     {
         $this->api->expects($this->once())
             ->method('setGetfield')
@@ -44,5 +44,29 @@ class ApiTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($responseJson, $api->getTimeline());
     }
 
+    public function testGetTimelineWithSinceId()
+    {
+        $this->api->expects($this->at(0))
+            ->method('setGetfield')
+            ->with('?count=20')
+            ->willReturnSelf();
+        $this->api->expects($this->at(1))
+            ->method('setGetfield')
+            ->with('&since_id=123')
+            ->willReturnSelf();
+        $this->api->expects($this->once())
+            ->method('buildOauth')
+            ->with('https://api.twitter.com/1.1/statuses/home_timeline.json', Api::GET)
+            ->willReturnSelf();
+        $responseJson ='[{twitter:"api"}]';
+        $this->api->expects($this->once())
+            ->method('performRequest')
+            ->willReturn($responseJson);
 
+        $logger = $this->getMockBuilder('Psr\Log\LoggerInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $api = new Api($this->api, $logger);
+        $this->assertEquals($responseJson, $api->getTimeline(20, 123));
+    }
 }

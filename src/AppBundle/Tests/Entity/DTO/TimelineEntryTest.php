@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity\DTO;
 
+use DateTime;
 use PHPUnit_Framework_TestCase;
 use stdClass;
 
@@ -40,8 +41,10 @@ class TimelineEntryTest extends PHPUnit_Framework_TestCase
 
         $actualEntry = new TimelineEntry($entry);
         $this->assertBasicProperties($actualEntry);
-        $expectedText = '<span class="user_mention">@Bender</span> Zoidberg https://example.com/media1 was here' .
-                '<span class="user_mention">@Fry</span> https://example.com/mention2 https://example.com/mention1 #ME';
+        $expectedText = '<a href="https://twitter.com/search?q=%40Bender" target="_blank"  class="user_mention">' .
+            '@Bender</a> Zoidberg https://example.com/media1 was here' .
+            '<a href="https://twitter.com/search?q=%40Fry" target="_blank"  class="user_mention">@Fry</a> ' .
+            'https://example.com/mention2 https://example.com/mention1 #ME';
         $this->assertEquals($expectedText, $actualEntry->getText());
     }
 
@@ -96,7 +99,7 @@ class TimelineEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedText, $actualEntry->getText());
     }
 
-    public function testTimelineEntryWithhashtags()
+    public function testTimelineEntryWithHashtags()
     {
         $entry = $this->createBasicEntry();
 
@@ -112,7 +115,8 @@ class TimelineEntryTest extends PHPUnit_Framework_TestCase
         $actualEntry = new TimelineEntry($entry);
         $this->assertBasicProperties($actualEntry);
         $expectedText = '@Bender Zoidberg https://example.com/media1 was here@Fry ' .
-            'https://example.com/mention2 https://example.com/mention1 <span class="twitter_hashtag">#ME</span>';
+            'https://example.com/mention2 https://example.com/mention1 ' .
+            '<a href="https://twitter.com/hashtag/ME" class="twitter_hashtag">#ME</a>';
         $this->assertEquals($expectedText, $actualEntry->getText());
     }
 
@@ -127,6 +131,7 @@ class TimelineEntryTest extends PHPUnit_Framework_TestCase
             '@Fry https://example.com/mention2 https://example.com/mention1 #ME';
         $entry->retweet_count = 5;
         $entry->favorite_count = 10;
+        $entry->created_at = '2015-12-01 10:00:00';
         $entry->entities = new stdClass();
 
         return $entry;
@@ -144,14 +149,15 @@ class TimelineEntryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $actualEntry
+     * @param TimelineEntry $actualEntry
      */
-    protected function assertBasicProperties($actualEntry)
+    protected function assertBasicProperties(TimelineEntry $actualEntry)
     {
         $this->assertEquals('abc123', $actualEntry->getId());
         $this->assertEquals(10, $actualEntry->getFavoriteCount());
         $this->assertEquals(5, $actualEntry->getRetweetCount());
         $this->assertEquals('http://exampl.com/profile.png', $actualEntry->getFromImage());
         $this->assertEquals('zoidberg', $actualEntry->getFrom());
+        $this->assertEquals(new DateTime('2015-12-01 10:00:00'), $actualEntry->getCreatedAt());
     }
 }
