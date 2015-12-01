@@ -8,7 +8,7 @@
     },
     "require": {
         "php": ">=5.3.9",
-        "symfony/symfony": "2.7.*",
+        "symfony/symfony": "2.*",
         "doctrine/orm": "^2.4.8",
         "doctrine/doctrine-bundle": "~1.4",
         "symfony/assetic-bundle": "~2.3",
@@ -27,7 +27,6 @@
         "twitter/bootstrap-bundle": "2.0.0",
         "twbs/bootstrap": "3.3.x-dev",
         "components/jquery": "2.1.4",
-        "raulfraile/ladybug-bundle": "v1.0.6",
         "phing/phing": "3.0.x-dev",
         "raveren/kint": "^1.0",
         "doctrine/mongodb-odm": "1.0.3",
