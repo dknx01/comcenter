@@ -157,6 +157,7 @@ class TwitterRepositoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($document, $this->repo->findWithLimit(50, 50)->getNext());
     }
+
     public function testFindByBooleanFieldWithLimit()
     {
         $document = new TwitterEntry();
@@ -213,5 +214,64 @@ class TwitterRepositoryTest extends \PHPUnit_Framework_TestCase
             ->willReturn($queryBuilder);
 
         $this->assertEquals($document, $this->repo->findByBooleanFieldWithLimit('pinned', 50, 50)->getNext());
+    }
+
+    public function testFindByUserName()
+    {
+        $document = new TwitterEntry();
+        $document->setTwitterId(123);
+        $document->setFromImage('Zoidberg');
+
+        $cursor = $this->getMockBuilder('Doctrine\ODM\MongoDB\Cursor')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getNext', 'hydrate'))
+            ->getMock();
+        $cursor->expects($this->once())
+            ->method('getNext')
+            ->willReturn($document);
+        $cursor->expects($this->once())
+            ->method('hydrate')
+            ->willReturnSelf();
+
+        $query = $this->getMockBuilder('Doctrine\MongoDB\Query\Query')
+            ->disableOriginalConstructor()
+            ->setMethods(array('execute'))
+            ->getMock();
+        $query->expects($this->once())
+            ->method('execute')
+            ->willReturn($cursor);
+        $queryBuilder = $this->getMockBuilder('Doctrine\ODM\MongoDB\Query\Builder')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getQuery', 'field', 'equals', 'skip', 'limit', 'sort'))
+            ->getMock();
+        $queryBuilder->expects($this->once())
+            ->method('getQuery')
+            ->willReturn($query);
+        $queryBuilder->expects($this->once())
+            ->method('field')
+            ->with('from')
+            ->willReturnSelf();
+        $queryBuilder->expects($this->once())
+            ->method('equals')
+            ->with('Zoidberg')
+            ->willReturnSelf();
+        $queryBuilder->expects($this->once())
+            ->method('skip')
+            ->with(0)
+            ->willReturnSelf();
+        $queryBuilder->expects($this->once())
+            ->method('limit')
+            ->with(50)
+            ->willReturnSelf();
+        $queryBuilder->expects($this->once())
+            ->method('sort')
+            ->with('twitterId', -1)
+            ->willReturnSelf();
+
+        $this->repo->expects($this->once())
+            ->method('createQueryBuilder')
+            ->willReturn($queryBuilder);
+
+        $this->assertEquals($document, $this->repo->findByUserName('Zoidberg', 50, 0)->getNext());
     }
 }

@@ -79,4 +79,23 @@ class TwitterRepository extends DocumentRepository
         return $result->getNext()->getTwitterId();
     }
 
+    /**
+     * @param string $userName
+     * @param int $limit
+     * @param int $skip
+     * @return Cursor
+     */
+    public function findByUserName($userName, $limit, $skip)
+    {
+        $qb = $this->createQueryBuilder();
+        /** @var Cursor $result */
+        $result = $qb->field('from')->equals($userName)
+            ->skip($skip)
+            ->limit($limit)
+            ->sort('twitterId', -1)
+            ->getQuery()
+            ->execute();
+        return $result->hydrate();
+    }
+
 }

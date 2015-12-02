@@ -2,6 +2,7 @@
 
 namespace ZwitscherBundle\Controller;
 
+use Doctrine\ODM\MongoDB\DocumentRepository;
 use ZwitscherBundle\Document\TwitterEntry;
 use ZwitscherBundle\Repository\TwitterRepository;
 use \ZwitscherBundle\Service\Twitter;
@@ -12,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TwitterController extends Controller
 {
-
     /**
      * @Route("/twitter")
      * @return Response
@@ -32,9 +32,7 @@ class TwitterController extends Controller
      */
     public function getNewestAction()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
-        /** @var TwitterRepository $repo */
-        $repo = $dm->getRepository('ZwitscherBundle:TwitterEntry');
+        $repo = $this->getTwitterRepo();
         return new Response($repo->getLastId());
     }
 
@@ -45,9 +43,7 @@ class TwitterController extends Controller
      */
     public function timelineAction($page = 0)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
-        /** @var TwitterRepository $repo */
-        $repo = $dm->getRepository('ZwitscherBundle:TwitterEntry');
+        $repo = $this->getTwitterRepo();
 
         $limit = 50;
         $timeline = $repo->findWithLimit($limit, ($page * $limit));
@@ -73,9 +69,7 @@ class TwitterController extends Controller
     public function deleteAction($twitterId)
     {
         $return = false;
-        $dm = $this->get('doctrine_mongodb')->getManager();
-        /** @var TwitterRepository $repo */
-        $repo = $dm->getRepository('ZwitscherBundle:TwitterEntry');
+        $repo = $this->getTwitterRepo();
         /** @var TwitterEntry $entry */
         $entry = $repo->findByTwitterId($twitterId);
         if (!is_null($entry)) {
@@ -93,9 +87,7 @@ class TwitterController extends Controller
     public function pinAction($twitterId)
     {
         $return = '';
-        $dm = $this->get('doctrine_mongodb')->getManager();
-        /** @var TwitterRepository $repo */
-        $repo = $dm->getRepository('ZwitscherBundle:TwitterEntry');
+        $repo = $this->getTwitterRepo();
         /** @var TwitterEntry $entry */
         $entry = $repo->findByTwitterId($twitterId);
         if (!is_null($entry)) {
@@ -132,6 +124,31 @@ class TwitterController extends Controller
     }
 
     /**
+     * @Route("/twitter/filter/user/{userName}/{page}", requirements={"userName"="\w+", "page"="\d+"}, name="filterbyUser")
+     * @param string$userName
+     * @return Response
+     */
+    public function filterByUserAction($userName, $page = 0)
+    {
+        $repo = $this->getTwitterRepo();
+        $limit = 50;
+        $timeline = $repo->findByUserName($userName, $limit, ($page * $limit));
+        $timelineArray = $timeline->toArray();
+
+        return $this->render(
+            'ZwitscherBundle:Twitter:timeline.html.twig',
+            array(
+                'timeline' => $timeline,
+                'timelineArray' => $timelineArray,
+                'page' => $page,
+                'perPage' => $limit,
+                'navigation' => 'home',
+                'url' => $this->generateUrl('filterbyUser', array('userName' => $userName))
+            )
+        );
+    }
+
+    /**
      * @param string $fieldName
      * @param string $naviName
      * @param int $page
@@ -140,9 +157,7 @@ class TwitterController extends Controller
      */
     protected function getEntriesByBooleanField($fieldName, $naviName, $page = 0, $limit = 50)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
-        /** @var TwitterRepository $repo */
-        $repo = $dm->getRepository('ZwitscherBundle:TwitterEntry');
+        $repo = $this->getTwitterRepo();
 
         $timeline = $repo->findByBooleanFieldWithLimit($fieldName, $limit, ($page * $limit));
         $timelineArray = $timeline->toArray();
@@ -158,5 +173,16 @@ class TwitterController extends Controller
                 'url' => $this->generateUrl($naviName)
             )
         );
+    }
+
+    /**
+     * @return TwitterRepository
+     */
+    protected function getTwitterRepo()
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        /** @var TwitterRepository $repo */
+        $repo = $dm->getRepository('ZwitscherBundle:TwitterEntry');
+        return $repo;
     }
 }

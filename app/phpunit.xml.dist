@@ -24,11 +24,11 @@
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory>../src/AppBundle/Command</directory>
-            <directory>../src/AppBundle/Document</directory>
-            <directory>../src/AppBundle/Entity</directory>
-            <directory>../src/AppBundle/Repository</directory>
-            <directory>../src/AppBundle/Service</directory>
+            <directory>../src/ZwitscherBundle/Command</directory>
+            <directory>../src/ZwitscherBundle/Document</directory>
+            <directory>../src/ZwitscherBundle/Entity</directory>
+            <directory>../src/ZwitscherBundle/Repository</directory>
+            <directory>../src/ZwitscherBundle/Service</directory>
             <exclude>
                 <directory>../src/*Bundle/Resources</directory>
                 <directory>../src/*Bundle/Tests</directory>
