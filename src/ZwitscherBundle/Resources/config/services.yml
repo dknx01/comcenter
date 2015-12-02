@@ -1,0 +1,33 @@
+services:
+  commcenter.service.twitter.api:
+    class: ZwitscherBundle\Service\Twitter\Api
+    arguments:
+      - @vendor.twitter.api
+      - @logger
+    tags:
+      - {name: monolog, channel: twitter}
+  commcenter.service.twitter.timeline:
+    class: ZwitscherBundle\Service\Twitter\Timeline
+    arguments:
+      - @commcenter.service.twitter.api
+      - @commcenter.repository.twitter
+  commcenter.repository.twitter:
+    class: ZwitscherBundle\Repository\TwitterRepository
+    factory: ["@doctrine_mongodb", getRepository]
+    arguments:
+      - ZwitscherBundle\Document\TwitterEntry
+  vendor.twitter.api:
+    class: TwitterAPIExchange
+    arguments: [%twitter%]
+  commcenter.twig_extension.kint_dump:
+    class: ZwitscherBundle\Twig\TwigKintDumpExtension
+    public: false
+    arguments:
+      - %kernel.environment%
+    tags:
+       - { name: twig.extension }
+  commcenter.twig_extension.build_twitter_url:
+    class: ZwitscherBundle\Twig\TwigTwitterUrlExtension
+    public: false
+    tags:
+       - { name: twig.extension }
