@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% block title %}Notes{% endblock %}
+{% block body %}
+    <div id="trumbowyg-demo"></div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('bundles/zwitscher/css/ui/trumbowyg.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('bundles/zwitscher/js/plugins/colors/ui/trumbowyg.colors.min.css') }}" rel="stylesheet" />
+{% endblock %}
+{% block meta %}
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    {% javascripts '@ZwitscherBundle/Resources/public/js/trumbowyg.min.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% javascripts '@ZwitscherBundle/Resources/public/js/plugins/colors/trumbowyg.colors.min.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        $('#trumbowyg-demo').trumbowyg({
+            btnsAdd: ['foreColor', 'backColor']
+        });
+    </script>
+{% endblock %}

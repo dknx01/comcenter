@@ -1,18 +1,23 @@
 function getBasepath()
 {
     if (window.location.pathname.match('/^\/app_dev\.php*/')) {
-        return '/app_dev.php';
+        return '/cc/app_dev.php';
     } else  {
-        return '';
+        return '/cc';
     }
 }
-function deleteEntry (id) {
+function deleteEntry (id, noDeleting) {
     var twitterId = $('#'+id).data('twitter');
     var deleteAction = $.get(getBasepath()+'/twitter/delete/'+twitterId);
+    noDeleting = (typeof noDeleting) !== 'undefined' ? noDeleting : 1;
 
     deleteAction.done(function (data) {
             if (data == 1) {
-                $('#'+id).hide();
+                if (noDeleting == 0) {
+                    $('#'+id).hide();
+                } else {
+                    $('#'+id+'Delete').addClass('redText');
+                }
             }
     }).fail(function() {
         alert( "error" );

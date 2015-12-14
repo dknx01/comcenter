@@ -57,6 +57,7 @@ class TwitterController extends Controller
                 'page' => $page,
                 'perPage' => $limit,
                 'navigation' => 'home',
+                'noDeleting' => 0,
                 'url' => $this->generateUrl('home')
             )
         );
@@ -143,6 +144,7 @@ class TwitterController extends Controller
                 'page' => $page,
                 'perPage' => $limit,
                 'navigation' => 'home',
+                'noDeleting' => 1,
                 'url' => $this->generateUrl('filterbyUser', array('userName' => $userName))
             )
         );
@@ -170,6 +172,7 @@ class TwitterController extends Controller
                 'page' => $page,
                 'perPage' => $limit,
                 'navigation' => $naviName,
+                'noDeleting' => 0,
                 'url' => $this->generateUrl($naviName)
             )
         );

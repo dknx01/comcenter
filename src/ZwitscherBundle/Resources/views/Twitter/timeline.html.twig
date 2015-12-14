@@ -22,14 +22,21 @@
                 <div class="tweet_states">
                     {% set pinColor = '' %}
                     {% set pinTitle = 'pin it' %}
+
                     {% if timelineEntry.isPinned == true %}
                         {% set pinColor = 'pinned' %}
                         {% set pinTitle = 'unpin it' %}
                     {% endif %}
+                    {% set deleteTitle = 'delete' %}
+                    {% set deleteStyle = '' %}
+                    {% if timelineEntry.isDeleted  == true%}
+                        {% set deleteTitle = 'already delete' %}
+                        {% set deleteStyle = 'color:red;' %}
+                    {% endif %}
                     <span class="statistics glyphicon glyphicon-share badge" data-toggle="tooltip" data-placement="bottom" title="retweeted count">{{ timelineEntry.retweetCount }}</span>
                     <span class="statistics glyphicon glyphicon-heart-empty badge" data-toggle="tooltip" data-placement="bottom" title="favourite count">{{ timelineEntry.favoriteCount }}</span>
                     <span class="statistics glyphicon glyphicon-pushpin badge {{ pinColor }}" id="{{ key }}Pin" data-toggle="tooltip" data-placement="bottom" title="{{ pinTitle }}" onclick="pinEntry('{{ key }}');"> </span>
-                    <span class="statistics glyphicon glyphicon-trash badge" data-toggle="tooltip" data-placement="bottom" title="delete" onclick="deleteEntry('{{ key }}');"> </span>
+                    <span class="statistics glyphicon glyphicon-trash badge" id="{{ key }}Delete" data-toggle="tooltip" data-placement="bottom" title="{{ deleteTitle }}" style="{{ deleteStyle }}" {% if timelineEntry.isDeleted != true %}onclick="deleteEntry('{{ key }}', {{ noDeleting }});"{% endif %} > </span>
                     <span class="publishDate">{{ timelineEntry.createdAt|date('d.m.Y H:i') }}</span>
                     <a href="{{ path('filterbyUser', {'userName': timelineEntry.from}) }}" >
                         <span class="glyphicon glyphicon-search" data-toggle="tooltip" data-placement="bottom" title="filter by user" > </span>
