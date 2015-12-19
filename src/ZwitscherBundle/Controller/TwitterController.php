@@ -3,8 +3,8 @@
 namespace ZwitscherBundle\Controller;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
-use ZwitscherBundle\Document\TwitterEntry;
-use ZwitscherBundle\Repository\TwitterRepository;
+use ZwitscherBundle\Document\Notes;
+use ZwitscherBundle\Repository\NotesRepository;
 use \ZwitscherBundle\Service\Twitter;
 use ZwitscherBundle\Service\Twitter\Api;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

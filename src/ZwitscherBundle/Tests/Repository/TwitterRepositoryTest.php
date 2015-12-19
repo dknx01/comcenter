@@ -2,7 +2,7 @@
 
 namespace ZwitscherBundle\Repository;
 
-use ZwitscherBundle\Document\TwitterEntry;
+use ZwitscherBundle\Document\Notes;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use PHPUnit_Framework_MockObject_MockObject;
@@ -30,7 +30,7 @@ class TwitterRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('getUnitOfWork')
             ->willReturn($uow);
 
-        $metaClass = new ClassMetadata(new TwitterEntry());
+        $metaClass = new ClassMetadata(new Notes());
         $this->repo = $this->getMockBuilder('ZwitscherBundle\Repository\TwitterRepository')
             ->setConstructorArgs(array($this->dm, $this->dm->getUnitOfWork(), $metaClass))
             ->setMethods(array('findOneBy', 'createQueryBuilder'))
@@ -39,7 +39,7 @@ class TwitterRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testSave()
     {
-        $document = new TwitterEntry();
+        $document = new Notes();
         $document->setText('TEST');
 
         $this->dm->expects($this->once())
@@ -53,7 +53,7 @@ class TwitterRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testFindByTwitterId()
     {
-        $document = new TwitterEntry();
+        $document = new Notes();
         $document->setText('TEST')
             ->setFrom('fooo');
 
@@ -66,7 +66,7 @@ class TwitterRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetLastId()
     {
-        $document = new TwitterEntry();
+        $document = new Notes();
         $document->setTwitterId(123);
 
         $cursor = $this->getMockBuilder('Doctrine\ODM\MongoDB\Cursor')
@@ -102,7 +102,7 @@ class TwitterRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testFindWithLimit()
     {
-        $document = new TwitterEntry();
+        $document = new Notes();
         $document->setTwitterId(123);
 
         $cursor = $this->getMockBuilder('Doctrine\ODM\MongoDB\Cursor')
@@ -160,7 +160,7 @@ class TwitterRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testFindByBooleanFieldWithLimit()
     {
-        $document = new TwitterEntry();
+        $document = new Notes();
         $document->setTwitterId(123);
 
         $cursor = $this->getMockBuilder('Doctrine\ODM\MongoDB\Cursor')
@@ -218,7 +218,7 @@ class TwitterRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testFindByUserName()
     {
-        $document = new TwitterEntry();
+        $document = new Notes();
         $document->setTwitterId(123);
         $document->setFromImage('Zoidberg');
 

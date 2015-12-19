@@ -2,7 +2,7 @@
 
 namespace ZwitscherBundle\Service;
 
-use ZwitscherBundle\Repository\TwitterRepository;
+use ZwitscherBundle\Repository\NotesRepository;
 use ZwitscherBundle\Service\Twitter\Api;
 use ZwitscherBundle\Service\Twitter\Timeline;
 use PHPUnit_Framework_MockObject_MockObject;

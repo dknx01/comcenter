@@ -17,6 +17,7 @@ function deleteEntry (id, noDeleting) {
                     $('#'+id).hide();
                 } else {
                     $('#'+id+'Delete').addClass('redText');
+                    $('#'+id).find('div.tweet_text').addClass('strikethrough');
                 }
             }
     }).fail(function() {

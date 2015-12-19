@@ -16,6 +16,11 @@ services:
     factory: ["@doctrine_mongodb", getRepository]
     arguments:
       - ZwitscherBundle\Document\TwitterEntry
+  commcenter.repository.notes:
+    class: ZwitscherBundle\Repository\NotesRepository
+    factory: ["@doctrine_mongodb", getRepository]
+    arguments:
+      - ZwitscherBundle\Document\Notes
   vendor.twitter.api:
     class: TwitterAPIExchange
     arguments: [%twitter%]

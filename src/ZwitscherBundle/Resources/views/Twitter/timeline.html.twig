@@ -29,7 +29,7 @@
                     {% endif %}
                     {% set deleteTitle = 'delete' %}
                     {% set deleteStyle = '' %}
-                    {% if timelineEntry.isDeleted  == true%}
+                    {% if timelineEntry.isDeleted == true%}
                         {% set deleteTitle = 'already delete' %}
                         {% set deleteStyle = 'color:red;' %}
                     {% endif %}
@@ -42,7 +42,7 @@
                         <span class="glyphicon glyphicon-search" data-toggle="tooltip" data-placement="bottom" title="filter by user" > </span>
                     </a>
                 </div>
-                <div class="tweet_text">
+                <div class="tweet_text {% if timelineEntry.isDeleted == true%}strikethrough{% endif %}">
                     {{ timelineEntry.text|raw }}
                 </div>
             </div>

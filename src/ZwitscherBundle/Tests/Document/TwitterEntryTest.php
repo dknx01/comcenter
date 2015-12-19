@@ -19,7 +19,7 @@ class TwitterEntryTest extends \PHPUnit_Framework_TestCase
     {
         $createdAt = new DateTime();
 
-        $document = new TwitterEntry();
+        $document = new Notes();
         $document->setTwitterId(123);
         $document->setText('Example text');
         $document->setFrom('Zoidberg');
