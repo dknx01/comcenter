@@ -2,9 +2,9 @@
 
 namespace ZwitscherBundle\Repository;
 
-use ZwitscherBundle\Document\Notes;
 use Doctrine\ODM\MongoDB\Cursor;
 use Doctrine\ODM\MongoDB\DocumentRepository;
+use ZwitscherBundle\Document\TwitterEntry;
 
 class TwitterRepository extends DocumentRepository
 {
@@ -12,7 +12,7 @@ class TwitterRepository extends DocumentRepository
     /**
      * @param TwitterEntry $twitterEntry
      */
-    public function save(Notes $twitterEntry)
+    public function save(TwitterEntry $twitterEntry)
     {
         $this->dm->persist($twitterEntry);
         $this->dm->flush($twitterEntry);

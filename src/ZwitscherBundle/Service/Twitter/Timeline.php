@@ -3,11 +3,11 @@
 namespace ZwitscherBundle\Service\Twitter;
 
 use ZwitscherBundle\Document\Subdocument\OriginalData;
-use ZwitscherBundle\Document\Notes;
+use ZwitscherBundle\Document\TwitterEntry;
 use ZwitscherBundle\Entity\DTO\TimelineEntry;
 use ZwitscherBundle\Entity\TimelineCollection;
-use ZwitscherBundle\Repository\NotesRepository;
 use stdClass;
+use ZwitscherBundle\Repository\TwitterRepository;
 
 class Timeline
 {
@@ -31,7 +31,7 @@ class Timeline
      * @param Api $twitter
      * @param TwitterRepository $repository
      */
-    public function __construct(Api $twitter, NotesRepository $repository)
+    public function __construct(Api $twitter, TwitterRepository $repository)
     {
         $this->twitter = $twitter;
         $this->twitterRepo = $repository;
@@ -82,7 +82,7 @@ class Timeline
      */
     protected function saveEntryInDatabase(TimelineEntry $timelineEntry, $entry)
     {
-        $twitterDocument = new Notes();
+        $twitterDocument = new TwitterEntry();
         $twitterDocument->setTwitterId($timelineEntry->getId());
         $twitterDocument->setText($timelineEntry->getText());
         $twitterDocument->setFrom($timelineEntry->getFrom());
@@ -103,7 +103,7 @@ class Timeline
      * @param TwitterEntry $twitterDocument
      * @return TwitterEntry
      */
-    protected function addOriginalData($entry, Notes $twitterDocument)
+    protected function addOriginalData($entry, TwitterEntry $twitterDocument)
     {
         $originalData = new OriginalData();
         $originalData->setText($entry->text);

@@ -18,7 +18,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 //            new AppBundle\AppBundle(),
             new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle(),
-            new \ZwitscherBundle\ZwitscherBundle()
+            new \ZwitscherBundle\ZwitscherBundle(),
+            new ShowNotesToZoidBundle\ShowNotesToZoidBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

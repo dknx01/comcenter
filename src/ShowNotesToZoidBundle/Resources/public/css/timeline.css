@@ -1,0 +1,84 @@
+body {
+    background-color: black;
+}
+.user_mention {
+    color: #0000F0;
+}
+.url_mention {
+    color: #36A700;
+}
+.stream {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 700px;
+}
+.tweet {
+    /*max-height: 100px;*/
+    max-width: 700px;
+    background-color: #BFEFFD;
+    border-radius: 10px 10px 10px 10px;
+    margin-bottom: 10px;
+    box-shadow: 5px 5px 5px #888;
+    padding: 2px 2px 3px 2px;
+    min-height: 82px;
+}
+.tweet_person {
+    text-align: center;
+    float: left;
+    /*            border: #777 5px solid;*/
+    border-radius: 10px 10px 10px 10px;
+    background-color: rgba(139, 184, 197, 0.6);
+    margin-right: 10px;
+    padding: 2px;
+    box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.75);
+}
+.tweet_person_img {
+    vertical-align: middle; border-radius: 50px;
+}
+.tweet_text {
+    /*background-color: beige;*/
+    /*border-radius: 0px 0px 10px 0px;*/
+}
+.tweet_content {
+    /*padding-left: 70px;*/
+    word-wrap: break-word;
+}
+.tweet_states {
+    color: #a94442;
+    background-color: #dff0d8;
+    border-radius: 10px 10px 0px 0px;
+    /*padding-left: 5px;*/
+    /*margin-left: 70px;*/
+}
+.twitter_hashtag {
+    color: #337AB7;
+}
+.headline {
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
+.pinned {
+    color:rgb(0, 193, 0);
+}
+.publishDate {
+    font-size: smaller;
+    color: black;
+}
+#menu {
+    margin: 0px 50px 10px 50px;
+}
+#menu>ul>li {
+    background-color: aliceblue;
+    border-radius: 5px;
+}
+.redText {
+    color: red;
+}
+
+.strikethrough {
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 100 100'><g fill='none' stroke='red'><path stroke-width='6' d='M1 0 L0 1 L99 100 L100 99' shape-rendering='auto' /></g></svg>");
+    background-repeat:no-repeat;
+    background-position:center center;
+    background-size: 100% 100%, auto;
+}

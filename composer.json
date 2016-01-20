@@ -18,7 +18,7 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
         "j7mbo/twitter-api-php": "dev-master",
-        "behat/behat": "3.0.x-dev",
+        "behat/behat": "dev-master",
         "behat/symfony2-extension": "2.1.x-dev",
         "behatch/contexts": "3.x-dev",
         "behat/mink": "1.7.x-dev",

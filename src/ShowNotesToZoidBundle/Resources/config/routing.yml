@@ -1,0 +1,4 @@
+show_notes_to_zoid_homepage:
+    path:     /notes
+    defaults: { _controller: ShowNotesToZoidBundle:Default:index }
+

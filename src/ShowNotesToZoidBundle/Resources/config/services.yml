@@ -1,0 +1,12 @@
+services:
+#    show_notes_to_zoid.example:
+#        class: ShowNotesToZoidBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
+  show_notes_to_zoid.repository.notes:
+    class: ShowNotesToZoidBundle\Repository\NotesRepository
+    factory: ["@doctrine_mongodb", getRepository]
+    arguments:
+      - ShowNotesToZoidBundle\Document\Notes
+  show_notes_to_zoid.service_note.import_notes_service:
+    class: ShowNotesToZoidBundle\Service\Note\ImportNotesService
+    arguments: [ @show_notes_to_zoid.repository.notes ]
