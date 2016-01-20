@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle(),
             new \ZwitscherBundle\ZwitscherBundle(),
             new ShowNotesToZoidBundle\ShowNotesToZoidBundle(),
+            new RssCleanerBundle\RssCleanerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

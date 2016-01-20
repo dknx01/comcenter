@@ -1,0 +1,3 @@
+rss_cleaner_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: RssCleanerBundle:Default:index }
