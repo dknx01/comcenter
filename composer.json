@@ -31,7 +31,10 @@
         "raveren/kint": "^1.0",
         "doctrine/mongodb-odm": "1.0.3",
         "doctrine/mongodb-odm-bundle": "3.1.x-dev",
-        "dms/meetup-api-client": "2.0.x-dev"
+        "dms/meetup-api-client": "2.0.x-dev",
+        "doctrine/data-fixtures": "2.0.x-dev",
+        "doctrine/migrations": "^1.2",
+        "doctrine/doctrine-migrations-bundle": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

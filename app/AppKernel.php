@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new \ZwitscherBundle\ZwitscherBundle(),
             new ShowNotesToZoidBundle\ShowNotesToZoidBundle(),
             new RssCleanerBundle\RssCleanerBundle(),
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
