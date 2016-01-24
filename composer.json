@@ -34,7 +34,9 @@
         "dms/meetup-api-client": "2.0.x-dev",
         "doctrine/data-fixtures": "2.0.x-dev",
         "doctrine/migrations": "^1.2",
-        "doctrine/doctrine-migrations-bundle": "^1.0"
+        "doctrine/doctrine-migrations-bundle": "^1.0",
+        "phpunit/phpunit": "4.8.21",
+        "phpunit/phpunit-mock-objects": "2.3.8"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

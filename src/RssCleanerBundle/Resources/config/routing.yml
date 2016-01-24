@@ -1,3 +1,6 @@
 rss_cleaner_homepage:
     path:     /rsscleaner/
     defaults: { _controller: RssCleanerBundle:Default:index }
+rss_cleaner_new:
+    path:     /rsscleaner/new
+    defaults: { _controller: RssCleanerBundle:Default:new }

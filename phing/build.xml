@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="CommCenter" default="dist">
+<project name="CommCenter" default="phpunit" basedir="..">
 
     <!-- ============================================  -->
     <!-- Target: prepare                               -->
@@ -39,5 +39,32 @@
         </tar>
 
         <echo msg="Files copied and compressed in build directory OK!" />
+    </target>
+
+    <target name="prepare">
+        <mkdir dir="./coverage-report"/>
+    </target>
+
+    <target name="phpunit" depends="prepare">
+        <coverage-setup database="./coverage-report/database">
+            <fileset dir=".">
+                <include name="*.php"/>
+                <exclude name="*Test.php"/>
+            </fileset>
+        </coverage-setup>
+
+        <phpunit haltonfailure="true" haltonerror="true" printsummary="true" codecoverage="true"
+                 configuration="app/phpunit.xml.dist">
+            <!--<batchtest>-->
+                <!--<fileset dir="src">-->
+                    <!--<include name="*Test.php"/>-->
+                <!--</fileset>-->
+            <!--</batchtest>-->
+        <!--</phpunit>-->
+
+        <!--<coverage-report outfile="./coverage-report/coverage.xml">-->
+            <!--<report styledir="/usr/lib/php/data/phing/etc"-->
+                    <!--todir="coverage-report"/>-->
+        <!--</coverage-report>-->
     </target>
 </project>

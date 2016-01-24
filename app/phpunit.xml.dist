@@ -9,10 +9,13 @@
 >
     <testsuites>
         <testsuite name="Project Test Suite">
-            <directory>../src/*Bundle/Tests/Entity</directory>
-            <directory>../src/*Bundle/Tests/Service</directory>
-            <directory>../src/*Bundle/Tests/Repository</directory>
-            <!--<directory>../src/*Bundle/Tests</directory>-->
+            <!--<directory>../src/*Bundle/Tests/Entity</directory>-->
+            <!--<directory>../src/*Bundle/Tests/Service</directory>-->
+            <!--<directory>../src/*Bundle/Tests/Repository</directory>-->
+            <directory>../src/*Bundle/Tests/**</directory>
+            <exclude>
+                <directory>../src/*Bundle/Tests/Examples</directory>
+            </exclude>
         </testsuite>
     </testsuites>
 
@@ -24,11 +27,14 @@
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory>../src/ZwitscherBundle/Command</directory>
-            <directory>../src/ZwitscherBundle/Document</directory>
-            <directory>../src/ZwitscherBundle/Entity</directory>
-            <directory>../src/ZwitscherBundle/Repository</directory>
-            <directory>../src/ZwitscherBundle/Service</directory>
+            <!--<directory>../src/ZwitscherBundle/Command</directory>-->
+            <!--<directory>../src/ZwitscherBundle/Document</directory>-->
+            <!--<directory>../src/ZwitscherBundle/Entity</directory>-->
+            <!--<directory>../src/ZwitscherBundle/Repository</directory>-->
+            <!--<directory>../src/ZwitscherBundle/Service</directory>-->
+            <directory>../src/ZwitscherBundle/**</directory>
+            <directory>../src/ShowNotesToZoidBundle/**</directory>
+            <directory>../src/RssCleanerBundle/**</directory>
             <exclude>
                 <directory>../src/*Bundle/Resources</directory>
                 <directory>../src/*Bundle/Tests</directory>
@@ -52,4 +58,9 @@
         <!--<log type="testdox-html" target="/tmp/testdox.html"/>-->
         <!--<log type="testdox-text" target="/tmp/testdox.txt"/>-->
     </logging>
+
+    <!-- This is required for VPU to work correctly -->
+    <listeners>
+        <listener class="PHPUnit_Util_Log_JSON"></listener>
+    </listeners>
 </phpunit>
