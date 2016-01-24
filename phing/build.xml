@@ -1,60 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="CommCenter" default="phpunit" basedir="..">
+<project name="CommCenter" default="phpunit" basedir="../">
 
     <!-- ============================================  -->
     <!-- Target: prepare                               -->
     <!-- ============================================  -->
-    <target name="prepare">
-        <echo msg="Making directory ./build" />
-        <mkdir dir="./build" />
-    </target>
+    <!--<target name="prepare">-->
+        <!--<echo msg="Making directory ./build" />-->
+        <!--<mkdir dir="./build" />-->
+    <!--</target>-->
 
     <!-- ============================================  -->
     <!-- Target: build                                 -->
     <!-- ============================================  -->
-    <target name="build" depends="prepare">
-        <echo msg="Copying files to build directory..." />
+    <!--<target name="build" depends="prepare">-->
+        <!--<echo msg="Copying files to build directory..." />-->
 
-        <echo msg="Copying ./about.php to ./build directory..." />
-        <copy file="./about.php" tofile="./build/about.php" />
+        <!--<echo msg="Copying ./about.php to ./build directory..." />-->
+        <!--<copy file="./about.php" tofile="./build/about.php" />-->
 
-        <echo msg="Copying ./browsers.php to ./build directory..." />
-        <copy file="./browsers.php" tofile="./build/browsers.php" />
+        <!--<echo msg="Copying ./browsers.php to ./build directory..." />-->
+        <!--<copy file="./browsers.php" tofile="./build/browsers.php" />-->
 
-        <echo msg="Copying ./contact.php to ./build directory..." />
-        <copy file="./contact.php" tofile="./build/contact.php" />
-    </target>
+        <!--<echo msg="Copying ./contact.php to ./build directory..." />-->
+        <!--<copy file="./contact.php" tofile="./build/contact.php" />-->
+    <!--</target>-->
 
     <!-- ============================================  -->
     <!-- (DEFAULT)  Target: dist                       -->
     <!-- ============================================  -->
-    <target name="dist" depends="build">
-        <echo msg="Creating archive..." />
+    <!--<target name="dist" depends="build">-->
+        <!--<echo msg="Creating archive..." />-->
 
-        <tar destfile="./build/build.tar.gz" compression="gzip">
-            <fileset dir="./build">
-                <include name="*" />
-            </fileset>
-        </tar>
+        <!--<tar destfile="./build/build.tar.gz" compression="gzip">-->
+            <!--<fileset dir="./build">-->
+                <!--<include name="*" />-->
+            <!--</fileset>-->
+        <!--</tar>-->
 
-        <echo msg="Files copied and compressed in build directory OK!" />
-    </target>
+        <!--<echo msg="Files copied and compressed in build directory OK!" />-->
+    <!--</target>-->
 
-    <target name="prepare">
-        <mkdir dir="./coverage-report"/>
-    </target>
+    <!--<target name="prepare">-->
+        <!--<mkdir dir="./coverage-report"/>-->
+    <!--</target>-->
 
-    <target name="phpunit" depends="prepare">
-        <coverage-setup database="./coverage-report/database">
-            <fileset dir=".">
-                <include name="*.php"/>
-                <exclude name="*Test.php"/>
-            </fileset>
-        </coverage-setup>
+    <target name="phpunit">
+        <exec command="../bin/phpunit -c ../app/" dir="${project.basedir}"/>
+        <!--<coverage-setup database="./coverage-report/database">-->
+            <!--<fileset dir=".">-->
+                <!--<include name="*.php"/>-->
+                <!--<exclude name="*Test.php"/>-->
+            <!--</fileset>-->
+        <!--</coverage-setup>-->
 
-        <phpunit haltonfailure="true" haltonerror="true" printsummary="true" codecoverage="true"
-                 configuration="app/phpunit.xml.dist">
+        <!--<phpunit haltonfailure="true" haltonerror="true" printsummary="true" codecoverage="true"-->
+                 <!--configuration="../app/phpunit.xml.dist" pharlocation="bin">-->
             <!--<batchtest>-->
                 <!--<fileset dir="src">-->
                     <!--<include name="*Test.php"/>-->

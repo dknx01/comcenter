@@ -19,7 +19,8 @@ class DefaultController extends Controller
         /** @var NotesRepository $repo */
         $repo = $this->get('show_notes_to_zoid.repository.notes');
         /** @var Cursor $notes */
-        $notes = $repo->findAllByNotebookId('d10eae39-ac01-5e5c-e2da-2fa1bb97f1fc');
+        $notes = $repo->findAllByNotebookId($this->getParameter('shownotestozoid.notebookId'));
+//        dump($repo->findByNoteId("cd70091b-841f-41d3-1f03-3766ba5c4ac5")->getNext());
         return $this->render('ShowNotesToZoidBundle:Default:index.html.twig', array('notes' => $notes));
     }
 }

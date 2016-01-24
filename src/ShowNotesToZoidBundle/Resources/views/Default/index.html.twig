@@ -1,14 +1,17 @@
 {% extends 'base.html.twig' %}
 {% block title %}Dev Notes{% endblock %}
 {% block body %}
+    <div>
+        <h4 class="grey center-align">Collected notes for development</h4>
+    </div>
 {% for note in notes  %}
-    <div class="row">
+    <div class="row white-text">
         <div class="col s12 m7">
             <div class="card-panel hoverable blue-grey darken-1">
                 <div class="card-content card-title">
-                    {#<span class="card-title grey lighten-2">#}
+                    <span class="card-title grey lighten-2 black-text padding-left-right z-depth-2">
                         {{ note.title }}
-                    {#</span>#}
+                    </span>
                 </div>
                     <p>{{ note.content|raw }}</p>
 
@@ -23,6 +26,10 @@
 {% block stylesheets %}
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+    {#<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/default.css">#}
+    {#<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/school-book.min.css">#}
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/ir-black.min.css">
+    <link href="{{ asset('bundles/shownotestozoid/css/notes.css') }}" rel="stylesheet" />
 {% endblock %}
 {% block meta %}
     <!--Let browser know website is optimized for mobile-->
@@ -33,4 +40,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+
+    <script>hljs.initHighlightingOnLoad();</script>
 {% endblock %}

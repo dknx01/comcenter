@@ -36,12 +36,17 @@
             <directory>../src/ShowNotesToZoidBundle/**</directory>
             <directory>../src/RssCleanerBundle/**</directory>
             <exclude>
+                <directory>../src/*Bundle/Controller</directory>
+                <directory>../src/*Bundle/DependencyInjection</directory>
                 <directory>../src/*Bundle/Resources</directory>
                 <directory>../src/*Bundle/Tests</directory>
+                <directory>../src/*Bundle/Twig</directory>
                 <directory>../src/*/*Bundle/Resources</directory>
                 <directory>../src/*/*Bundle/Tests</directory>
+                <directory>../src/*/*Bundle/Twig</directory>
                 <directory>../src/*/Bundle/*Bundle/Resources</directory>
                 <directory>../src/*/Bundle/*Bundle/Tests</directory>
+                <directory>../src/*/Bundle/*Bundle/Twig</directory>
             </exclude>
         </whitelist>
     </filter>
