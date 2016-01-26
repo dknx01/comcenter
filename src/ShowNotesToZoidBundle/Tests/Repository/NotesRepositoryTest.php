@@ -153,4 +153,45 @@ class NotesRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Doctrine\ODM\MongoDB\Cursor', $result);
         $this->assertInstanceOf('ShowNotesToZoidBundle\Document\Notes', $result->getSingleResult());
     }
+
+    public function testFindAllByNotebookId()
+    {
+        $cursor = $this->getMockBuilder('Doctrine\ODM\MongoDB\Cursor')
+            ->disableOriginalConstructor()
+            ->setMethods(array('hydrate'))
+            ->getMock();
+        $cursor->expects($this->once())
+            ->method('hydrate')
+            ->willReturnSelf();
+
+        $query = $this->getMockBuilder('Doctrine\MongoDB\Query\Query')
+            ->disableOriginalConstructor()
+            ->setMethods(array('execute'))
+            ->getMock();
+        $query->expects($this->once())
+            ->method('execute')
+            ->willReturn($cursor);
+
+        $queryBuilder = $this->getMockBuilder('Doctrine\ODM\MongoDB\Query\Builder')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $queryBuilder->expects($this->once())
+            ->method('field')
+            ->with('notebookId')
+            ->willReturnSelf();
+        $queryBuilder->expects($this->once())
+            ->method('equals')
+            ->with('123abc')
+            ->willReturnSelf();
+        $queryBuilder->expects($this->once())
+            ->method('getQuery')
+            ->willReturn($query);
+        $this->dm->expects($this->once())
+            ->method('createQueryBuilder')
+            ->with(get_class(new Notes()))
+            ->willReturn($queryBuilder);
+
+        $result = $this->repo->findAllByNotebookId('123abc');
+        $this->assertInstanceOf('Doctrine\ODM\MongoDB\Cursor', $result);
+    }
 }
