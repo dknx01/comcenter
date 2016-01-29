@@ -9,4 +9,4 @@ services:
       - ShowNotesToZoidBundle\Document\Notes
   show_notes_to_zoid.service_note.import_notes_service:
     class: ShowNotesToZoidBundle\Service\Note\ImportNotesService
-    arguments: [ @show_notes_to_zoid.repository.notes ]
+    arguments: [ "@show_notes_to_zoid.repository.notes", "@markdown.parser.min" ]

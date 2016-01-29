@@ -36,7 +36,8 @@
         "doctrine/migrations": "^1.2",
         "doctrine/doctrine-migrations-bundle": "^1.0",
         "phpunit/phpunit": "4.8.21",
-        "phpunit/phpunit-mock-objects": "2.3.8"
+        "phpunit/phpunit-mock-objects": "2.3.8",
+        "knplabs/knp-markdown-bundle": "1.4.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

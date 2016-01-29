@@ -4,8 +4,10 @@ namespace ShowNotesToZoidBundle\Service\Note;
 
 use DateTime;
 use FilesystemIterator;
+use Knp\Bundle\MarkdownBundle\MarkdownParserInterface;
 use ShowNotesToZoidBundle\Document\Notes;
 use ShowNotesToZoidBundle\Repository\NotesRepository;
+use stdClass;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 class ImportNotesService
@@ -16,9 +18,25 @@ class ImportNotesService
      */
     private $notesRepo;
 
-    public function __construct(NotesRepository $notesRepository)
+    /**
+     * @var MarkdownParserInterface $mdParser
+     */
+    private $markDownParser;
+
+    /**
+     * @var array
+     */
+    private  $search = array('\n', '\"');
+
+    /**
+     * @var array
+     */
+    private  $replace = array(PHP_EOL, '"');
+
+    public function __construct(NotesRepository $notesRepository, MarkdownParserInterface $markdownParserInterface)
     {
         $this->notesRepo = $notesRepository;
+        $this->markDownParser = $markdownParserInterface;
     }
 
     /**
@@ -30,9 +48,11 @@ class ImportNotesService
     public function importNotesFromFile(FilesystemIterator $iterator, ProgressBar $progressBar, $sleep = 100000)
     {
         $updateCount = 0;
+
         /** @var FilesystemIterator $entry */
         foreach ($iterator as $entry) {
             $content = file_get_contents($entry->getPath() . '/' . $entry->getFilename());
+            /** @var stdClass $data */
             $data = json_decode($content);
 
             if ($this->notesRepo->findByNoteIdCount($data->id) == 0) {
@@ -50,7 +70,7 @@ class ImportNotesService
             $updated = $this->createdDateTimeObject($data->updated);
 
             $note->setTitle($data->title)
-                ->setContent($data->content)
+                ->setContent($this->convertString($data))
                 ->setUpdatedAt($updated)
                 ->setNotebookId($data->notebookId)
                 ->setTrash($data->trash)
@@ -74,5 +94,20 @@ class ImportNotesService
         $dateTime = new DateTime();
         $dateTime->setTimestamp(substr($data, 0, -3));
         return $dateTime;
+    }
+
+    /**
+     * @param $data
+     * @return string
+     */
+    private function convertString($data)
+    {
+        return html_entity_decode(
+            str_replace(
+                $this->search,
+                $this->replace,
+                $this->markDownParser->transformMarkdown($data->content)
+            )
+        );
     }
 }
