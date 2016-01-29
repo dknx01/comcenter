@@ -1,0 +1,10 @@
+{
+  "created": "1454098701123",
+  "id": "123abc",
+  "updated": "1454098701123",
+  "title": "Test title",
+  "notebookId": "789yxz",
+  "trash": "0",
+  "type": "foo",
+  "content": "**Create DROP TABLE for all tables in a Database**\n\n<pre><code>SELECT \"$DATABASE\"</code></pre>"
+}

@@ -9,10 +9,14 @@
 
 namespace ZwitscherBundle\Entity\DTO;
 
-
 use DateTime;
 use stdClass;
 
+/**
+ * Class TimelineEntryNew
+ * @package ZwitscherBundle\Entity\DTO
+ * @codeCoverageIgnore
+ */
 class TimelineEntryNew
 {
     /**
