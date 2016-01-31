@@ -4,6 +4,7 @@ namespace ShowNotesToZoidBundle\Controller;
 
 use Doctrine\MongoDB\Cursor;
 use Knp\Bundle\MarkdownBundle\MarkdownParserInterface;
+use ShowNotesToZoidBundle\Document\Notes;
 use ShowNotesToZoidBundle\Repository\NotesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +22,19 @@ class DefaultController extends Controller
         /** @var Cursor $notes */
         $notes = $repo->findAllByNotebookId($this->getParameter('shownotestozoid.notebookId'));
         return $this->render('ShowNotesToZoidBundle:Default:index.html.twig', array('notes' => $notes));
+    }
+
+    /**
+     * @param string $noteId
+     * @return Response
+     */
+    public function detailAction($noteId)
+    {
+        /** @var NotesRepository $repo */
+        $repo = $this->get('show_notes_to_zoid.repository.notes');
+        /** @var Notes $note */
+        $note = $repo->findByNoteId($noteId)->getSingleResult();
+        return $this->render('ShowNotesToZoidBundle:Default:detail.html.twig', array('note' => $note));
     }
 
     /**

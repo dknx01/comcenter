@@ -1,7 +1,13 @@
 show_notes_to_zoid_homepage:
     path:     /notes
     defaults: { _controller: ShowNotesToZoidBundle:Default:index }
+
+show_notes_to_zoid_details:
+    path:     /notes/{noteId}
+    defaults: { _controller: ShowNotesToZoidBundle:Default:detail }
+    requirements:
+        noteId: "[a-z0-9-]+"
+
 show_notes_to_zoid_test:
     path:     /notes/test
     defaults: { _controller: ShowNotesToZoidBundle:Default:test }
-

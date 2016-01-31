@@ -7,24 +7,34 @@
             <div class="nav-wrapper">
                 <div class="col s12">
                     <a href="{{ path('show_notes_to_zoid_homepage') }}" class="breadcrumb">Overview</a>
+                    <a href="{{ path('show_notes_to_zoid_details', {'noteId': note.noteId}) }}" class="breadcrumb">Detail for: {{ note.title }}</a>
                 </div>
             </div>
         </nav>
     </div>
-    <div class="container">
-        <div class="row">
-        {% for note in notes  %}
-            <div class="col s12 m6 13 chip notesOverview">
-                <a href="{{ path('show_notes_to_zoid_details', {'noteId':note.noteId}) }}" >{{ note.title }}</a>
+    {% if note is not empty%}
+        <div class="row white-text">
+            <div class="col s12 m7">
+                <div class="card-panel hoverable blue-grey darken-1">
+                    <div class="card-content card-title">
+                        <span class="card-title grey lighten-2 black-text padding-left-right z-depth-2">
+                            {{ note.title }}
+                        </span>
+                    </div>
+                        <p>{{ note.content|raw }}</p>
+
+                </div>
             </div>
-        {% endfor %}
         </div>
-    </div>
+    {% else %}
+        Note not found
+    {% endif %}
 {% endblock %}
 
 {% block stylesheets %}
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     {#<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/default.css">#}
     {#<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/school-book.min.css">#}
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/ir-black.min.css">
