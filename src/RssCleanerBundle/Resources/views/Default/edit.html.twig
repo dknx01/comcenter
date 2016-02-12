@@ -2,19 +2,15 @@
 {% block title %}{{ 'rsscleaner.title'|trans({}) }}{% endblock %}
 {% block body %}
     {% include 'RssCleanerBundle:Default:navigation.html.twig' with {'navigationElement': 'home'} %}
-    {% if expressions is empty %}
-        {{ 'rsscleaner.no_expressions'|trans }}
-    {% endif %}
-    <div class="row">
-        {% for expression in expressions %}
-            <div class="col s12">
-                {% set activeIcon = expression.active ? 'check box' : 'check_box_outline_blank'%}
-                <i class="material-icons">{{ activeIcon }}</i>
-                {{ expression.expression|trim }}<a href="{{ path('rss_cleaner_edit', {'id': expression.id }) }}"><i class="material-icons">mode edit</i>                </a>
-            </div>
-        {% endfor %}
-    </div>
-{% endblock %}
+<div class="row">
+    <form class="col s12" method="{{ form.vars.method }}" action="{{ form.vars.action }}" name="{{ form.vars.name }}">
+      <div class="row">
+        <div class="input-field col s6">
+            {{ form_errors(form) }}
+            {{ form_widget(form) }}
+        </div>
+      </div>
+    </form>{% endblock %}
 {% block stylesheets %}
 <!-- Compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">

@@ -30,6 +30,16 @@ class Expression
      */
     private $expression;
 
+    /**
+     * @ORM\Column(type="boolean", name="active", nullable=false)
+     * @var boolean
+     */
+    private $active;
+
+    /**
+     * @var int
+     */
+    private $limit;
 
     /**
      * Get id
@@ -57,6 +67,44 @@ class Expression
     public function setExpression($expression)
     {
         $this->expression = $expression;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLimit()
+    {
+        return $this->limit;
+    }
+
+    /**
+     * @param int $limit
+     *
+     * @return Expression
+     */
+    public function setLimit($limit)
+    {
+        $this->limit = $limit;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param boolean $active
+     *
+     * @return Expression
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
         return $this;
     }
 }

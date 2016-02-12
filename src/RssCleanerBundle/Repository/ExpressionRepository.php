@@ -1,6 +1,7 @@
 <?php
 
 namespace RssCleanerBundle\Repository;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use RssCleanerBundle\Entity\Expression;
 
 /**
@@ -19,4 +20,31 @@ class ExpressionRepository extends \Doctrine\ORM\EntityRepository
         $this->_em->persist($expression);
         $this->_em->flush($expression);
     }
+
+//    /**
+//     * @param string $regex
+//     * @param int $limit
+//     * @param int $offset
+//     * @return array
+//     */
+//    public function getEntriesByRegex($regex, $limit = 10, $offset = 0)
+//    {
+//        $rsm = new ResultSetMappingBuilder($this->getEntityManager());
+//        $rsm->addRootEntityFromClassMetadata('RssCleanerBundle\Entity\FreshRssEntry', 'freshRssEntry');
+//        dump($this->getClassMetadata()->getTableName());exit;
+//        $sql = 'SELECT freshRssEntry.* FROM freshRssEntry  WHERE freshRssEntry.title REGEX \'?\'';
+//        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+//        $query->setParameter(1, $regex);
+//
+//        return $query->getResult();
+//
+////        $qb = $this->getEntityManager()->createQueryBuilder();
+////        $qb->select('freshRssEntry')
+////            ->from('RssCleanerBundle:FreshRssEntry', 'freshRssEntry')
+////            ->where('freshRssEntry.title = REGEX :regex')
+////            ->setFirstResult($offset)
+////            ->setMaxResults($limit)
+////            ->setParameter('regex', $regex);
+////        return $qb->getQuery()->getResult();
+//    }
 }

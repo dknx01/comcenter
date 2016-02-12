@@ -1,6 +1,9 @@
 <?php
 
 namespace RssCleanerBundle\Repository;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
+use RssCleanerBundle\Entity\Expression;
+use RssCleanerBundle\Entity\FreshRssEntry;
 
 /**
  * FreshRssEntryRepository
@@ -10,4 +13,18 @@ namespace RssCleanerBundle\Repository;
  */
 class FreshRssEntryRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param array $data
+     * @return \RssCleanerBundle\Entity\FreshRssEntry[]
+     */
+    public function getEntriesByRegex($data = array())
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('freshRssEntry')
+            ->from('RssCleanerBundle:FreshRssEntry', 'freshRssEntry')
+            ->where('REGEXP(freshRssEntry.title, :regex) = 1')
+            ->setMaxResults($data['limit'])
+            ->setParameter('regex', $data['expression']->getExpression());
+        return $qb->getQuery()->getResult();
+    }
 }

@@ -4,3 +4,11 @@ rss_cleaner_homepage:
 rss_cleaner_new:
     path:     /rsscleaner/new
     defaults: { _controller: RssCleanerBundle:Default:new }
+rss_cleaner_test:
+    path: /rsscleaner/test
+    defaults: { _controller: RssCleanerBundle:Default:test }
+rss_cleaner_edit:
+    path: /rsscleaner/edit/{id}
+    defaults: { _controller: RssCleanerBundle:Default:edit }
+    requirements:
+        id: \d+
