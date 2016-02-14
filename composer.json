@@ -38,7 +38,8 @@
         "phpunit/phpunit": "4.8.21",
         "phpunit/phpunit-mock-objects": "2.3.8",
         "knplabs/knp-markdown-bundle": "1.4.2",
-        "beberlei/DoctrineExtensions": "1.0.x-dev"
+        "beberlei/DoctrineExtensions": "1.0.x-dev",
+        "codeception/codeception": "2.1.6"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
