@@ -25,11 +25,16 @@ class ImportLavernaNotesCommand extends ContainerAwareCommand
         $io = new SymfonyStyle($input, $output);
         $io->title('Starting ...');
         $lavernaDir = $this->getContainer()->getParameter('shownotestozoid.paths.notes');
+        $notebooksDir = $this->getContainer()->getParameter('shownotestozoid.paths.notebooks');
+        /** @var ImportNotesService $noteService */
+        $noteService = $this->getContainer()->get('show_notes_to_zoid.service_note.import_notes_service');
+
+        $noteService->importNotebooks($notebooksDir, $io);
+
         $fi = new FilesystemIterator($lavernaDir, FilesystemIterator::SKIP_DOTS|FilesystemIterator::CURRENT_AS_SELF);
         $io->writeln(sprintf("There were %d Files", iterator_count($fi)));
 
-        /** @var ImportNotesService $noteService */
-        $noteService = $this->getContainer()->get('show_notes_to_zoid.service_note.import_notes_service');
+
 
         $rows = iterator_count($fi);
         $progressBar = $io->createProgressBar($rows);

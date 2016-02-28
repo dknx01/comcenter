@@ -4,26 +4,15 @@ namespace ShowNotesToZoidBundle\Controller;
 
 use Doctrine\MongoDB\Cursor;
 use Knp\Bundle\MarkdownBundle\MarkdownParserInterface;
+use ShowNotesToZoidBundle\Document\Notebook;
 use ShowNotesToZoidBundle\Document\Notes;
+use ShowNotesToZoidBundle\Repository\NotebookRepository;
 use ShowNotesToZoidBundle\Repository\NotesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
-
-    /**
-     * @return Response
-     */
-    public function indexAction()
-    {
-        /** @var NotesRepository $repo */
-        $repo = $this->get('show_notes_to_zoid.repository.notes');
-        /** @var Cursor $notes */
-        $notes = $repo->findAllByNotebookId($this->getParameter('shownotestozoid.notebookId'));
-        return $this->render('ShowNotesToZoidBundle:Default:index.html.twig', array('notes' => $notes));
-    }
-
     /**
      * @param string $noteId
      * @return Response
@@ -32,9 +21,21 @@ class DefaultController extends Controller
     {
         /** @var NotesRepository $repo */
         $repo = $this->get('show_notes_to_zoid.repository.notes');
+        /** @var NotebookRepository $notebookRepo */
+        $notebookRepo = $this->get('show_notes_to_zoid.repository.notebook');
+
         /** @var Notes $note */
         $note = $repo->findByNoteId($noteId)->getSingleResult();
-        return $this->render('ShowNotesToZoidBundle:Default:detail.html.twig', array('note' => $note));
+
+        /** @var Notebook $parentNotebook */
+        $parentNotebook = $notebookRepo->findOneBy(array('name' => 'WebPublish'));
+        $notebooks = $notebookRepo->findAllNotebooksByParentId($parentNotebook->getId());
+        $notebookIds = array();
+        /** @var Notebook $notebook */
+        foreach ($notebooks as $notebook) {
+            $notebookIds[$notebook->getId()] = $notebook->getName();
+        }
+        return $this->render('ShowNotesToZoidBundle:Default:detail.html.twig', array('note' => $note, 'categories' => $notebookIds));
     }
 
     /**
@@ -50,5 +51,32 @@ class DefaultController extends Controller
         $html = str_replace($search, $replace, $mdParser->transformMarkdown($text));
         $md = 'md';
         return $this->render('ShowNotesToZoidBundle:Default:test.html.twig', array('md' => $html));
+    }
+
+    /**
+     * @param string|null $categoryId
+     * @return Response
+     */
+    public function indexAction($categoryId = null)
+    {
+        /** @var NotesRepository $notesRepository */
+        $notesRepository = $this->get('show_notes_to_zoid.repository.notes');
+        /** @var NotebookRepository $notebookRepo */
+        $notebookRepo = $this->get('show_notes_to_zoid.repository.notebook');
+        /** @var Notebook $parentNotebook */
+        $parentNotebook = $notebookRepo->findOneBy(array('name' => 'WebPublish'));
+
+        $notebooks = $notebookRepo->findAllNotebooksByParentId($parentNotebook->getId());
+        $notebookIds = array();
+        /** @var Notebook $notebook */
+        foreach ($notebooks as $notebook) {
+            $notebookIds[$notebook->getId()] = $notebook->getName();
+        }
+        $notebookId = empty($categoryId) ? $parentNotebook->getId() : $categoryId;
+        /** @var Cursor $notes */
+        $notes = empty($categoryId)
+            ? $notesRepository->findByNotebooks($notebookIds)
+            : $notesRepository->findAllByNotebookId($notebookId);
+        return $this->render('ShowNotesToZoidBundle:Default:indexnew.html.twig', array('notes' => $notes, 'categories' => $notebookIds));
     }
 }

@@ -61,4 +61,20 @@ class NotesRepository extends DocumentRepository
             ->execute();
         return $rs->hydrate();
     }
+
+    /**
+     * @param array $notebookIds
+     * @param int $limit
+     * @return Cursor
+     */
+    public function findByNotebooks(array $notebookIds, $limit = 50)
+    {
+        $qb = $this->dm->createQueryBuilder(get_class(new Notes()));
+        /** @var Cursor $rs */
+        $rs = $qb->field('notebookId')->in(array_keys($notebookIds))
+            ->limit($limit)
+            ->getQuery()
+            ->execute();
+        return $rs->hydrate();
+    }
 }

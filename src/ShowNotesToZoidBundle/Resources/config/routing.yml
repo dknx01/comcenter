@@ -1,9 +1,5 @@
-show_notes_to_zoid_homepage:
-    path:     /notes
-    defaults: { _controller: ShowNotesToZoidBundle:Default:index }
-
 show_notes_to_zoid_details:
-    path:     /notes/{noteId}
+    path:     /notes/detail/{noteId}
     defaults: { _controller: ShowNotesToZoidBundle:Default:detail }
     requirements:
         noteId: "[a-z0-9-]+"
@@ -11,3 +7,8 @@ show_notes_to_zoid_details:
 show_notes_to_zoid_test:
     path:     /notes/test
     defaults: { _controller: ShowNotesToZoidBundle:Default:test }
+show_notes_to_zoid_homepage:
+    path:     /devnotes/{categoryId}
+    defaults: { _controller: ShowNotesToZoidBundle:Default:index, categoryId: '' }
+    requirements:
+        categoryId: "[a-z0-9-]{0,}"

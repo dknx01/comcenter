@@ -1,0 +1,36 @@
+<div class="center-align blue-grey darken-4">
+    <span class="white-text" style="font-size: 20pt">Collected Dev Notes</span>
+</div>
+<nav>
+    <div class="nav-wrapper blue-grey darken-2">
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li {% if app.request.get('categoryId') is empty and note is not defined %}class="active"{% endif %}>
+                <a href="{{ path('show_notes_to_zoid_homepage', {'categoryId': null}) }}">Home</a>
+            </li>
+            {% for id,name in categories %}
+                {% set active = false %}
+                {% if app.request.get('categoryId') == id%}
+                    {% set active = true %}
+                {% elseif note is defined and note.notebookId == id %}
+                    {% set active = true %}
+                {% endif %}
+                <li {% if active == true %}class="active"{% endif %}>
+                    <a href="{{ path('show_notes_to_zoid_homepage',{'categoryId': id}) }}">{{ name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</nav>
+<nav>
+    <div class="nav-wrapper blue-grey lighten-2">
+        <div class="col s12">
+            <a href="{{ path('show_notes_to_zoid_homepage') }}" class="breadcrumb">Overview</a>
+            {% if app.request.get('categoryId') is not empty %}
+                <a href="{{ path('show_notes_to_zoid_homepage', {'categoryId': app.request.get('categoryId')}) }}" class="breadcrumb">{{ attribute(categories, app.request.get('categoryId')) }}</a>
+            {% elseif note is defined %}
+                <a href="{{ path('show_notes_to_zoid_homepage', {'categoryId': note.notebookId}) }}" class="breadcrumb">{{  attribute(categories, note.notebookId) }}</a>
+                <span class="breadcrumb">{{  note.title }}</span>
+            {% endif %}
+        </div>
+    </div>
+</nav>

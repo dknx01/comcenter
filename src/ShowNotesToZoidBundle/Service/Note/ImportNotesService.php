@@ -5,10 +5,13 @@ namespace ShowNotesToZoidBundle\Service\Note;
 use DateTime;
 use FilesystemIterator;
 use Knp\Bundle\MarkdownBundle\MarkdownParserInterface;
+use ShowNotesToZoidBundle\Document\Notebook;
 use ShowNotesToZoidBundle\Document\Notes;
+use ShowNotesToZoidBundle\Repository\NotebookRepository;
 use ShowNotesToZoidBundle\Repository\NotesRepository;
 use stdClass;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ImportNotesService
 {
@@ -33,9 +36,18 @@ class ImportNotesService
      */
     private  $replace = array(PHP_EOL, '"');
 
-    public function __construct(NotesRepository $notesRepository, MarkdownParserInterface $markdownParserInterface)
-    {
+    /**
+     * @var NotebookRepository
+     */
+    private $notebookRepo;
+
+    public function __construct(
+        NotesRepository $notesRepository,
+        MarkdownParserInterface $markdownParserInterface,
+        NotebookRepository $notebookRepository
+    ) {
         $this->notesRepo = $notesRepository;
+        $this->notebookRepo = $notebookRepository;
         $this->markDownParser = $markdownParserInterface;
     }
 
@@ -109,5 +121,41 @@ class ImportNotesService
                 $this->markDownParser->transformMarkdown($data->content)
             )
         );
+    }
+
+    /**
+     * @param string $path
+     * @param SymfonyStyle $io
+     */
+    public function importNotebooks($path, SymfonyStyle $io)
+    {
+        $fi = new FilesystemIterator($path, FilesystemIterator::SKIP_DOTS|FilesystemIterator::CURRENT_AS_SELF);
+        $io->note('Notebooks: ' . iterator_count($fi));
+        $progressBar = $io->createProgressBar(iterator_count($fi));
+        $progressBar->setBarCharacter('<fg=green>=</>');
+        $progressBar->setProgressCharacter("\xF0\x9F\x8D\xBA");
+        $io->progressStart();
+
+        /** @var FilesystemIterator $entry */
+        foreach ($fi as $entry) {
+            $content = file_get_contents($entry->getPath() . '/' . $entry->getFilename());
+            /** @var stdClass $data */
+            $data = json_decode($content);
+            /** @var Notebook $notebook */
+            $notebook = $this->notebookRepo->findOneBy(array('id' => $data->id));
+            if (is_null($notebook)) {
+                $notebook = new Notebook();
+            }
+            $notebook->setId($data->id)
+                ->setName($data->name)
+                ->setCreatedAt($this->createdDateTimeObject($data->created))
+                ->setUpdatedAt($this->createdDateTimeObject($data->updated))
+                ->setTrash($data->trash)
+                ->setType($data->type)
+                ->setParentId($data->parentId);
+            $this->notebookRepo->save($notebook);
+            $progressBar->advance();
+        }
+        $io->progressFinish();
     }
 }

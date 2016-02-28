@@ -7,6 +7,11 @@ services:
     factory: ["@doctrine_mongodb", getRepository]
     arguments:
       - ShowNotesToZoidBundle\Document\Notes
+  show_notes_to_zoid.repository.notebook:
+    class: ShowNotesToZoidBundle\Repository\NotebookRepository
+    factory: ["@doctrine_mongodb", getRepository]
+    arguments:
+      - ShowNotesToZoidBundle\Document\Notebook
   show_notes_to_zoid.service_note.import_notes_service:
     class: ShowNotesToZoidBundle\Service\Note\ImportNotesService
-    arguments: [ "@show_notes_to_zoid.repository.notes", "@markdown.parser.min" ]
+    arguments: [ "@show_notes_to_zoid.repository.notes", "@markdown.parser.min", "@show_notes_to_zoid.repository.notebook" ]
