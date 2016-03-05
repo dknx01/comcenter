@@ -14,7 +14,7 @@ function deleteEntry (id, noDeleting) {
     deleteAction.done(function (data) {
             if (data == 1) {
                 if (noDeleting == 0) {
-                    $('#'+id).hide();
+                    $('#'+id).addClass('hide');
                 } else {
                     $('#'+id+'Delete').addClass('redText');
                     $('#'+id).find('div.tweet_text').addClass('strikethrough');
@@ -34,9 +34,9 @@ function pinEntry (id) {
 
     pinAction.done(function (data) {
         if (data == 'unpinned') {
-            $('#'+id+'Pin').removeClass('pinned');
+            $('#'+id+'Pin').removeClass('pinnedColor');
         } else {
-            $('#'+id+'Pin').addClass('pinned');
+            $('#'+id+'Pin').addClass('pinnedColor');
         }
     } ).fail(function(data) {
         alert( data);

@@ -5,6 +5,7 @@ namespace ZwitscherBundle\Controller;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use ZwitscherBundle\Document\Notes;
 use ZwitscherBundle\Repository\NotesRepository;
+use ZwitscherBundle\Repository\TwitterRepository;
 use \ZwitscherBundle\Service\Twitter;
 use ZwitscherBundle\Service\Twitter\Api;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -19,7 +20,7 @@ class TwitterController extends Controller
      */
     public function twitterTimelineAction()
     {
-        $this->redirectToRoute('home');
+        $this->redirectToRoute('homepage');
         /** @var Api $service3 */
         $service3 = $this->get('commcenter.service.twitter.api');
 
@@ -50,7 +51,7 @@ class TwitterController extends Controller
         $timelineArray = $timeline->toArray();
 
         return $this->render(
-            'ZwitscherBundle:Twitter:timeline.html.twig',
+            'ZwitscherBundle:TwitterNew:timeline.html.twig',
             array(
                 'timeline' => $timeline,
                 'timelineArray' => $timelineArray,
@@ -137,7 +138,7 @@ class TwitterController extends Controller
         $timelineArray = $timeline->toArray();
 
         return $this->render(
-            'ZwitscherBundle:Twitter:timeline.html.twig',
+            'ZwitscherBundle:TwitterNew:timeline.html.twig',
             array(
                 'timeline' => $timeline,
                 'timelineArray' => $timelineArray,
@@ -165,7 +166,7 @@ class TwitterController extends Controller
         $timelineArray = $timeline->toArray();
 
         return $this->render(
-            'ZwitscherBundle:Twitter:timeline.html.twig',
+            'ZwitscherBundle:TwitterNew:timeline.html.twig',
             array(
                 'timeline' => $timeline,
                 'timelineArray' => $timelineArray,
@@ -185,7 +186,6 @@ class TwitterController extends Controller
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
         /** @var TwitterRepository $repo */
-        $repo = $dm->getRepository('ZwitscherBundle:TwitterEntry');
-        return $repo;
+        return $dm->getRepository('ZwitscherBundle:TwitterEntry');
     }
 }

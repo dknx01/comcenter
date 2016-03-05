@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+{% block title %}Twitter Timeline{% endblock %}
+{% block body %}
+
+{{ kintDump(timelineArray) }}
+
+    {% include  'ZwitscherBundle:TwitterNew:navigation.html.twig' with {'navigationElement': navigation} %}
+
+    <div class="stream">
+        <span class="headline">My Twitter Timeline</span>
+    {% for key,timelineEntry in timeline %}
+        <div id="{{ key }}" data-twitter="{{ timelineEntry.twitterId }}" data-from="{{ timelineEntry.from }}" class="card blue-grey lighten-2">
+            <div class="chip">
+                <a href="{{ twitterUserUrl(timelineEntry.from) }}" target="_blank">
+                    <img src="{{ timelineEntry.fromImage }}" alt="{{ timelineEntry.from }}">
+                    {{ timelineEntry.from }}
+                </a>
+                <a href="{{ path('filterbyUser', {'userName': timelineEntry.from}) }}" >
+                    <span class="bagde" title="filter by user"><i class="material-icons">search</i></span>
+                </a>
+            </div>
+            <div style="float: right">
+                {% set pinColor = '' %}
+                {% set pinTitle = 'pin it' %}
+
+                {% if timelineEntry.isPinned == true %}
+                    {% set pinColor = 'pinned' %}
+                    {% set pinTitle = 'unpin it' %}
+                {% endif %}
+                {% set deleteTitle = 'delete' %}
+                {% set deleteStyle = '' %}
+                {% if timelineEntry.isDeleted == true%}
+                    {% set deleteTitle = 'already delete' %}
+                    {% set deleteStyle = 'color:red;' %}
+                {% endif %}
+                <span class="bagde" title="retweeted count"><i class="material-icons">repeat</i>{{ timelineEntry.retweetCount }}</span>
+                <span class="bagde" title="favourite count"><i class="material-icons">favorite_border</i>{{ timelineEntry.favoriteCount }}</span>
+                <span class="bagde {{ pinColor }}" id="{{ key }}Pin" title="{{ pinTitle }}" onclick="pinEntry('{{ key }}');"><i class="material-icons">attach_file</i></span>
+                <span class="bagde" id="{{ key }}Delete" title="{{ deleteTitle }}" style="{{ deleteStyle }}" {% if timelineEntry.isDeleted != true %}onclick="deleteEntry('{{ key }}', {{ noDeleting }});"{% endif %}><i class="material-icons">delete</i></span>
+                <span class="publishDate">{{ timelineEntry.createdAt|date('d.m.Y H:i') }}</span>
+            </div>
+            <div class="card-content {% if timelineEntry.isDeleted == true%}strikethrough{% endif %}">
+                <p>{{ timelineEntry.text|raw }}</p>
+            </div>
+        </div>
+    {% endfor %}
+        <ul class="pagination">
+            {% if page > 0 %}
+                <li><a href="{{url~'/'~(page - 1) }}"><i class="material-icons">chevron_left</i></a></li>
+            {% endif %}
+            {#<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>#}
+            {% for i in 0..((timeline.count / perPage)|round(0, 'floor')) %}
+                <li class="waves-effect {% if i == page %}class="disabled active"{% endif %}"><a href="{{ url~'/'~i }}">{{ i }}</a></li>
+            {#<li {% if i == page %}class="disabled"{% endif %}><a href="{{ url~'/'~i }}">{{ i }}</a></li>#}
+            {% endfor %}
+            {% if page < ((timeline.count / perPage)|round(1, 'floor')) %}
+                <li class="next"><a href="{{url~'/'~(page + 1) }}"><i class="material-icons">chevron_right</i></a></li>
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{{ asset('bundles/zwitscher/css/timeline.css') }}" rel="stylesheet" />
+{% endblock %}
+{% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+
+    {% javascripts '@ZwitscherBundle/Resources/public/js/timeline.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% javascripts '@ZwitscherBundle/Resources/public/js/notify.min.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% block meta %}
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+{% endblock %}

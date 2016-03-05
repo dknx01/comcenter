@@ -1,0 +1,15 @@
+<nav>
+    <div class="nav-wrapper blue-grey darken-2">
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li {% if navigationElement == 'home' %}class="active"{% endif %}>
+                <a href="{{ url('home') }}">Home</a>
+            </li>
+            <li {% if navigationElement == 'pinned' %} class="active"{% endif %}>
+                <a href="{{ url('pinned') }}">Pinned</a>
+            </li>
+            <li {% if navigationElement == 'deleted' %} class="active"{% endif %}>
+                <a href="{{ url('deleted') }}">Deleted</a>
+            </li>
+        </ul>
+    </div>
+</nav>
