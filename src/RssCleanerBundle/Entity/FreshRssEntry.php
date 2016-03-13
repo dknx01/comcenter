@@ -40,6 +40,13 @@ class FreshRssEntry
     private $read;
 
     /**
+     * @var FreshRssFeed
+     * @ORM\ManyToOne(targetEntity="RssCleanerBundle\Entity\FreshRssFeed", cascade={"persist"}, inversedBy="id")
+     * @ORM\JoinColumn(name="id_feed", referencedColumnName="id")
+     */
+    private $feed;
+
+    /**
      * Get id
      *
      * @return integer
@@ -103,6 +110,25 @@ class FreshRssEntry
     public function setRead($read)
     {
         $this->read = $read;
+        return $this;
+    }
+
+    /**
+     * @return FreshRssFeed
+     */
+    public function getFeed()
+    {
+        return $this->feed;
+    }
+
+    /**
+     * @param FreshRssFeed $feed
+     *
+     * @return FreshRssEntry
+     */
+    public function setFeed($feed)
+    {
+        $this->feed = $feed;
         return $this;
     }
 }

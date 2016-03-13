@@ -10,6 +10,9 @@
             <li {% if navigationElement == 'test' %} class="active"{% endif %}>
                 <a href="{{ path('rss_cleaner_test') }}">Test expression</a>
             </li>
+            <li {% if navigationElement == 'run' %} class="active"{% endif %}>
+                <a href="{{ path('rss_cleaner_run_command') }}">Run Command</a>
+            </li>
         </ul>
     </div>
 </nav>

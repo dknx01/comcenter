@@ -17,14 +17,43 @@ class FreshRssEntryRepository extends \Doctrine\ORM\EntityRepository
      * @param array $data
      * @return \RssCleanerBundle\Entity\FreshRssEntry[]
      */
-    public function getEntriesByRegex($data = array())
+    public function getEntriesByRegex(array $data = array())
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('freshRssEntry')
             ->from('RssCleanerBundle:FreshRssEntry', 'freshRssEntry')
             ->where('REGEXP(freshRssEntry.title, :regex) = 1')
+            ->orderBy('freshRssEntry.createdAt', 'DESC')
             ->setMaxResults($data['limit'])
             ->setParameter('regex', $data['expression']->getExpression());
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * @param string $regex
+     * @return \RssCleanerBundle\Entity\FreshRssEntry[]
+     */
+    public function getUnreadEntriesByRegex($regex)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('freshRssEntry')
+            ->from('RssCleanerBundle:FreshRssEntry', 'freshRssEntry')
+            ->where('REGEXP(freshRssEntry.title, :regex) = 1')
+            ->andWhere('freshRssEntry.read = false')
+            ->setParameter('regex', $regex);
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param FreshRssEntry $entry
+     */
+    public function save(FreshRssEntry $entry)
+    {
+        $this->_em->persist($entry);
+        $this->_em->persist($entry->getFeed());
+        $this->_em->flush($entry);
+        $this->_em->flush($entry->getFeed());
+    }
+
+
 }

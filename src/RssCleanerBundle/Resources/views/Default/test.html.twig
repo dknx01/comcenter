@@ -14,14 +14,20 @@
                 {{ form_widget(form.limit) }}
             </p>
         </div>
-
         {{ form_end(form) }}
     </div>
     <br>
+    Count: {{ results|length }}
     <ul class="collection">
         <li class="collection-item"><span class="badge">Id</span>#: Title</li>
         {% for k,entry in results %}
-            <li class="collection-item"><span class="badge">{{ entry.id  }}</span>{{ k }}: {{ entry.title|raw }}</li>
+            <li class="collection-item">
+                {{ k }}:
+                <div class="chip">
+                    {{ entry.createdAt|date('d.m.Y') }}
+                </div>
+                <span class="badge">{{ entry.id  }}</span>{{ entry.title|raw }}
+            </li>
         {% endfor %}
     </ul>
 {% endblock %}

@@ -3,6 +3,7 @@
 namespace RssCleanerBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,7 +24,18 @@ class ExpressionType extends AbstractType
                 array(
                     'label' => 'Expression',
                     'required' => true,
-                    'empty_data' => 'Your expression'
+                    'empty_data' => 'Your expression',
+                    'trim' => false
+                )
+            )
+            ->add(
+                'active',
+                CheckboxType::class,
+                array(
+                    'label' => 'Active',
+                    'required' => true,
+                    'empty_data' => 'is this active',
+                    'value' => 1
                 )
             )
             ->add('save', SubmitType::class, array('label' => 'Speichern'));

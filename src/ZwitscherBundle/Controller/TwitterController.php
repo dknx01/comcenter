@@ -20,7 +20,7 @@ class TwitterController extends Controller
      */
     public function twitterTimelineAction()
     {
-        $this->redirectToRoute('homepage');
+        return $this->redirectToRoute('homepage');
         /** @var Api $service3 */
         $service3 = $this->get('commcenter.service.twitter.api');
 

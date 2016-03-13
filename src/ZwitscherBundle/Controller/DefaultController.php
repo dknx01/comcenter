@@ -14,7 +14,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $this->redirectToRoute('show_notes_to_zoid_homepage');
+        return $this->redirectToRoute('show_notes_to_zoid_homepage');
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', array(
             'base_dir' => str_replace('/var/www/erikwitthauer', 'DOCROOT', realpath($this->container->getParameter('kernel.root_dir').'/..')),

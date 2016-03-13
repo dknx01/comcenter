@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+{% block title %}Run command - RssCleaner{% endblock %}
+{% block body %}
+    {% include 'RssCleanerBundle:Default:navigation.html.twig' with {'navigationElement': 'run'} %}
+    Entries set to read:<br>
+    <table class="responsive-table highlight">
+        <thead>
+        <tr>
+            <th data-field="id">Expression</th>
+            <th data-field="name">Entries</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for expression, entries in found %}
+            <tr>
+                <td>
+                    {{ expression }}
+                </td>
+                <td>
+                    {% if entries|length > 0 %}
+                        <ul>
+                            {% for entry in entries %}
+                                <li>{{ entry }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        not found
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+{% block stylesheets %}
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+{% endblock %}
+{% block meta %}
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+{% endblock %}

@@ -12,3 +12,6 @@ rss_cleaner_edit:
     defaults: { _controller: RssCleanerBundle:Default:edit }
     requirements:
         id: \d+
+rss_cleaner_run_command:
+    path: /rsscleaner/run
+    defaults: { _controller: RssCleanerBundle:Default:run }
