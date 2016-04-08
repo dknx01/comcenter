@@ -2,8 +2,6 @@
 {% block title %}Twitter Timeline{% endblock %}
 {% block body %}
 
-{{ kintDump(timelineArray) }}
-
     {% include  'ZwitscherBundle:TwitterNew:navigation.html.twig' with {'navigationElement': navigation} %}
 
     <div class="stream">

@@ -3,20 +3,25 @@
 {% block body %}
     {% include 'RssCleanerBundle:Default:navigation.html.twig' with {'navigationElement': 'home'} %}
 <div class="row">
-    <form class="col s12" method="{{ form.vars.method }}" action="{{ form.vars.action }}" name="{{ form.vars.name }}">
-      <div class="row">
-        <div class="input-field col s6">
-            {{ form_row(form.expression) }}
-        </div>
-        <div class="col s6">
-            <input type="checkbox" id="{{ form.active.vars.id }}"  name="{{ form.active.vars.full_name }}"
-            {% if form.active.vars.data == 1 %}checked="checked"{% endif %} value="{{ form.active.vars.value }}"/>
-            {% do form.active.setRendered %}
-            {{ form_label(form.active) }}
-        </div>
-      </div>
-      {{ form_rest(form) }}
-    </form>
+    <div class="input-field col s6">
+        <form class="col s12" method="{{ form.vars.method }}" action="{{ form.vars.action }}" name="{{ form.vars.name }}">
+          <div class="row">
+            <div class="input-field col s6">
+                {{ form_row(form.expression) }}
+            </div>
+            <div class="col s6">
+                <input type="checkbox" id="{{ form.active.vars.id }}"  name="{{ form.active.vars.full_name }}"
+                {% if form.active.vars.data == 1 %}checked="checked"{% endif %} value="{{ form.active.vars.value }}"/>
+                {% do form.active.setRendered %}
+                {{ form_label(form.active) }}
+            </div>
+          </div>
+          {{ form_rest(form) }}
+        </form>
+    </div>
+    <div class="col s6" id="searchResult">
+    </div>
+</div>
 {% endblock %}
 {% block stylesheets %}
 <!-- Compiled and minified CSS -->
@@ -32,4 +37,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+    {% javascripts
+    '@RssCleanerBundle/Resources/public/js/restClient.js'
+    '@RssCleanerBundle/Resources/public/js/rsscleanerv2.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            RssCleaner.search.init();
+        });
+    </script>
 {% endblock %}

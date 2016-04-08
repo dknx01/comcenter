@@ -1,7 +1,7 @@
 <?php
 
 namespace RssCleanerBundle\Repository;
-use Doctrine\ORM\Query\ResultSetMappingBuilder;
+
 use RssCleanerBundle\Entity\Expression;
 use RssCleanerBundle\Entity\FreshRssEntry;
 
@@ -15,7 +15,7 @@ class FreshRssEntryRepository extends \Doctrine\ORM\EntityRepository
 {
     /**
      * @param array $data
-     * @return \RssCleanerBundle\Entity\FreshRssEntry[]
+     * @return FreshRssEntry[]
      */
     public function getEntriesByRegex(array $data = array())
     {
@@ -30,8 +30,40 @@ class FreshRssEntryRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
+     * @param Expression $expression
+     * @return FreshRssEntry[]
+     */
+    public function getEntriesByExpression(Expression $expression)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('freshRssEntry')
+            ->from('RssCleanerBundle:FreshRssEntry', 'freshRssEntry')
+            ->where('REGEXP(freshRssEntry.title, :regex) = 1')
+            ->orderBy('freshRssEntry.createdAt', 'DESC')
+            ->setMaxResults(20)
+            ->setParameter('regex', $expression->getExpression());
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param string $expression
+     * @return FreshRssEntry[]
+     */
+    public function getEntriesBySearchExpression($expression)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('freshRssEntry')
+            ->from('RssCleanerBundle:FreshRssEntry', 'freshRssEntry')
+            ->where('REGEXP(freshRssEntry.title, :regex) = 1')
+            ->orderBy('freshRssEntry.createdAt', 'DESC')
+            ->setMaxResults(20)
+            ->setParameter('regex', $expression);
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
      * @param string $regex
-     * @return \RssCleanerBundle\Entity\FreshRssEntry[]
+     * @return FreshRssEntry[]
      */
     public function getUnreadEntriesByRegex($regex)
     {

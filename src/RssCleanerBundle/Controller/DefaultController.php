@@ -48,6 +48,29 @@ class DefaultController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return Response
+     */
+    public function newWithSearchAction(Request $request)
+    {
+        $expression = new Expression();
+        $form = $this->createForm(
+            ExpressionType::class,
+            $expression,
+            array('action' => $this->generateUrl('rss_cleaner_new'))
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $expressionRepo = $this->container->get('rss_cleaner.expression.repository');
+            $expressionRepo->save($expression);
+            return $this->redirectToRoute('rss_cleaner_homepage');
+        }
+
+        return $this->render('RssCleanerBundle:Default:newWithSearch.html.twig', array('form' => $form->createView()));
+    }
+
+    /**
      * @return Response
      */
     public function runAction()
@@ -71,7 +94,6 @@ class DefaultController extends Controller
                 $freshRssEntryRepo->save($entry);
             }
         }
-        dump($unreadEntries);
         return $this->render('@RssCleaner/Default/runCommand.html.twig', array('found' => $unreadEntries));
     }
 
@@ -116,5 +138,10 @@ class DefaultController extends Controller
         }
 
         return $this->render('@RssCleaner/Default/test.html.twig', array('results' => $result, 'form' => $form->createView()));
+    }
+
+    public function searchAction()
+    {
+        return $this->render('@RssCleaner/Default/search.html.twig');
     }
 }

@@ -2,8 +2,6 @@
 {% block title %}Twitter Timeline{% endblock %}
 {% block body %}
 
-{{ kintDump(timelineArray) }}
-
     {% include  'ZwitscherBundle:Twitter:navigation.html.twig' with {'navigationElement': navigation} %}
 
     <div class="stream">
@@ -35,8 +33,8 @@
                     {% endif %}
                     <span class="statistics glyphicon glyphicon-share badge" data-toggle="tooltip" data-placement="bottom" title="retweeted count">{{ timelineEntry.retweetCount }}</span>
                     <span class="statistics glyphicon glyphicon-heart-empty badge" data-toggle="tooltip" data-placement="bottom" title="favourite count">{{ timelineEntry.favoriteCount }}</span>
-                    <span class="statistics glyphicon glyphicon-pushpin badge {{ pinColor }}" id="{{ key }}Pin" data-toggle="tooltip" data-placement="bottom" title="{{ pinTitle }}" onclick="pinEntry('{{ key }}');"> </span>
-                    <span class="statistics glyphicon glyphicon-trash badge" id="{{ key }}Delete" data-toggle="tooltip" data-placement="bottom" title="{{ deleteTitle }}" style="{{ deleteStyle }}" {% if timelineEntry.isDeleted != true %}onclick="deleteEntry('{{ key }}', {{ noDeleting }});"{% endif %} > </span>
+                    <span class="statistics glyphicon glyphicon-pushpin badge {{ pinColor }}" id="{{ key }}Pin" data-toggle="tooltip" data-placement="bottom" title="{{ pinTitle }}" onclick="pinEntry('{{ key }}');"></span>
+                    <span class="statistics glyphicon glyphicon-trash badge" id="{{ key }}Delete" data-toggle="tooltip" data-placement="bottom" title="{{ deleteTitle }}" style="{{ deleteStyle }}" {% if timelineEntry.isDeleted != true %}onclick="deleteEntry('{{ key }}', {{ noDeleting }});"{% endif %} ></span>
                     <span class="publishDate">{{ timelineEntry.createdAt|date('d.m.Y H:i') }}</span>
                     <a href="{{ path('filterbyUser', {'userName': timelineEntry.from}) }}" >
                         <span class="glyphicon glyphicon-search" data-toggle="tooltip" data-placement="bottom" title="filter by user" > </span>

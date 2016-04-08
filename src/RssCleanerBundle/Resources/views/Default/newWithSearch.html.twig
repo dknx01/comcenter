@@ -5,17 +5,17 @@
     <div class="row">
         <div class="input-field col s6">
             <form class="col s12" method="{{ form.vars.method }}" action="{{ form.vars.action }}" name="{{ form.vars.name }}">
-                <div class="row">
-                    <div class="input-field col s6">
-                        {{ form_row(form.expression) }}
-                    </div>
-                    <div class="col s6">
-                        <input type="checkbox" id="{{ form.active.vars.id }}"  name="{{ form.active.vars.full_name }}" checked="checked" value="{{ form.active.vars.value }}"/>
-                        {% do form.active.setRendered %}
-                        {{ form_label(form.active) }}
-                    </div>
+              <div class="row">
+                <div class="input-field col s6">
+                    {{ form_row(form.expression) }}
                 </div>
-                {{ form_rest(form) }}
+                <div class="col s6">
+                    <input type="checkbox" id="{{ form.active.vars.id }}"  name="{{ form.active.vars.full_name }}" checked="checked" value="{{ form.active.vars.value }}"/>
+                    {% do form.active.setRendered %}
+                    {{ form_label(form.active) }}
+                </div>
+              </div>
+              {{ form_rest(form) }}
             </form>
         </div>
         <div class="col s6" id="searchResult">
@@ -36,8 +36,8 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
     {% javascripts
-    '@RssCleanerBundle/Resources/public/js/restClient.js'
-    '@RssCleanerBundle/Resources/public/js/rsscleanerv2.js'
+        '@RssCleanerBundle/Resources/public/js/restClient.js'
+        '@RssCleanerBundle/Resources/public/js/rsscleanerv2.js'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}

@@ -15,3 +15,19 @@ rss_cleaner_edit:
 rss_cleaner_run_command:
     path: /rsscleaner/run
     defaults: { _controller: RssCleanerBundle:Default:run }
+rss_cleaner_search:
+    path: /rsscleaner/search
+    defaults: { _controller: RssCleanerBundle:Default:search }
+rss_cleaner_rest_get_entries:
+    path: /rsscleaner/entries/expression/{id}
+    defaults: { _controller: RssCleanerBundle:RssRest:getEntries}
+    requirements:
+        id: \d+
+rss_cleaner_rest_get_entries_by_expression:
+    path: /rsscleaner/entries/search/{expression}
+    defaults: { _controller: RssCleanerBundle:RssRest:getEntriesBySearchExpression}
+    requirements:
+        expression: ^.+$
+rss_cleaner_new2:
+    path:     /rsscleaner/new2
+    defaults: { _controller: RssCleanerBundle:Default:newWithSearch }

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block title %}New expression - RssCleaner{% endblock %}
+{% block body %}
+    {% include 'RssCleanerBundle:Default:navigation.html.twig' with {'navigationElement': 'search'} %}
+      <div class="row">
+        <div class="input-field col s6">
+            <input id="search" type="text" class="validate">
+            <label class="active" for="search">Search</label>
+        </div>
+        <div class="col s6" id="searchResult">
+        </div>
+      </div>
+{% endblock %}
+{% block stylesheets %}
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+{% endblock %}
+{% block meta %}
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+
+    {% javascripts '@RssCleanerBundle/Resources/public/js/rsscleaner.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            RssCleaner.search.init();
+        });
+    </script>
+{% endblock %}
